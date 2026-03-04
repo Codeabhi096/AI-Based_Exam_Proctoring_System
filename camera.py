@@ -60,9 +60,12 @@ def load_darknet_weights(model, weights_file):
                     wf, dtype=np.float32, count=4 * filters)
                 bn_weights = bn_weights.reshape((4, filters))[[1, 0, 2, 3]]
 
+
+                
+
             conv_shape = (filters, in_dim, size, size)
             conv_weights = np.fromfile(
-                wf, dtype=np.float32, count=np.product(conv_shape))
+                wf, dtype=np.float32, count=np.prod(conv_shape))
             conv_weights = conv_weights.reshape(
                 conv_shape).transpose([2, 3, 1, 0])
 
