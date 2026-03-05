@@ -44,9 +44,14 @@ app.config['MAIL_PASSWORD'] = 'password'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 
-app.config['SESSION_COOKIE_SAMESITE'] = "None"
-
+app.config['SESSION_COOKIE_SAMESITE'] = "Lax"
+app.config['SESSION_COOKIE_SECURE'] = False
 app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+
+#app.config['SESSION_COOKIE_SAMESITE'] = "None"
+
+#app.config['SESSION_TYPE'] = 'filesystem'
 
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
@@ -381,24 +386,28 @@ def generateOTP() :
 
 @app.route('/register', methods=['GET','POST'])
 def register():
-	if request.method == 'POST':
-		name = request.form['name']
-		email = request.form['email']
-		password = request.form['password']
-		user_type = request.form['user_type']
-		imgdata = request.form['image_hidden']
-		session['tempName'] = name
-		session['tempEmail'] = email
-		session['tempPassword'] = password
-		session['tempUT'] = user_type
-		session['tempImage'] = imgdata
-		sesOTP = generateOTP()
-		session['tempOTP'] = sesOTP
-		msg1 = Message('MyProctor.ai - OTP Verification', sender = sender, recipients = [email])
-		msg1.body = "New Account opening - Your OTP Verfication code is "+sesOTP+"."
-		mail.send(msg1)
-		return redirect(url_for('verifyEmail')) 
-	return render_template('register.html')
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+        user_type = request.form['user_type']
+        imgdata = request.form['image_hidden']
+        cur = mysql.connection.cursor()
+        
+        existing = cur.execute('SELECT * FROM users WHERE email = %s', [email])
+        if existing > 0:
+            flash("Email already registered!", "danger")
+            return render_template('register.html')
+        ar = cur.execute('INSERT INTO users(name, email, password, user_type, user_image, user_login) values(%s,%s,%s,%s,%s,%s)', 
+                         (name, email, password, user_type, imgdata, 0))
+        mysql.connection.commit()
+        cur.close()
+        if ar > 0:
+            flash("Registration successful! Please login.", "success")
+            return redirect(url_for('login'))
+        else:
+            flash("Error occurred! Try again.", "danger")
+    return render_template('register.html')
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -408,42 +417,46 @@ def login():
 		user_type = request.form['user_type']
 		imgdata1 = request.form['image_hidden']
 		cur = mysql.connection.cursor()
-		results1 = cur.execute('SELECT uid, name, email, password, user_type, user_image from users where email = %s and user_type = %s and user_login = 0' , (email,user_type))
+		results1 = cur.execute('SELECT uid, name, email, password, user_type, user_image from users where email = %s and user_type = %s' , (email,user_type))
 		if results1 > 0:
 			cresults = cur.fetchone()
 			imgdata2 = cresults['user_image']
 			password = cresults['password']
 			name = cresults['name']
 			uid = cresults['uid']
-			nparr1 = np.frombuffer(base64.b64decode(imgdata1), np.uint8)
-			nparr2 = np.frombuffer(base64.b64decode(imgdata2), np.uint8)
-			image1 = cv2.imdecode(nparr1, cv2.COLOR_BGR2GRAY)
-			image2 = cv2.imdecode(nparr2, cv2.COLOR_BGR2GRAY)
-			img_result  = DeepFace.verify(image1, image2, enforce_detection = False)
-			if img_result["verified"] == True and password == password_candidate:
-				results2 = cur.execute('UPDATE users set user_login = 1 where email = %s' , [email])
-				mysql.connection.commit()
-				if results2 > 0:
-					session['logged_in'] = True
-					session['email'] = email
-					session['name'] = name
-					session['user_role'] = user_type
-					session['uid'] = uid
-					if user_type == "student":
-						return redirect(url_for('student_index'))
-					else:
-						return redirect(url_for('professor_index'))
-				else:
-					error = 'Error Occurred!'
-					return render_template('login.html', error=error)	
-			else:
-				error = 'Either Image not Verified or you have entered Invalid password or Already login'
+			if password != password_candidate:
+				error = 'Invalid password!'
 				return render_template('login.html', error=error)
-			cur.close()
+			if imgdata2 is None or imgdata1 is None or imgdata1 == '':
+				face_verified = True
+			else:
+				nparr1 = np.frombuffer(base64.b64decode(imgdata1), np.uint8)
+				nparr2 = np.frombuffer(base64.b64decode(imgdata2), np.uint8)
+				image1 = cv2.imdecode(nparr1, cv2.COLOR_BGR2GRAY)
+				image2 = cv2.imdecode(nparr2, cv2.COLOR_BGR2GRAY)
+				img_result = DeepFace.verify(image1, image2, enforce_detection=False)
+				face_verified = img_result["verified"]
+			if face_verified == True:
+				cur.execute('UPDATE users set user_login = 1 where email = %s' , [email])
+				mysql.connection.commit()
+				session['logged_in'] = True
+				session['email'] = email
+				session['name'] = name
+				session['user_role'] = user_type
+				session['uid'] = uid
+				cur.close()
+				if user_type == "student":
+					return redirect(url_for('student_index'))
+				else:
+					return redirect(url_for('professor_index'))
+			else:
+				error = 'Image verified nahi hua!'
+				return render_template('login.html', error=error)
 		else:
-			error = 'Already Login or Email was not found!'
+			error = 'Email not found!'
 			return render_template('login.html', error=error)
 	return render_template('login.html')
+
 
 @app.route('/verifyEmail', methods=['GET','POST'])
 def verifyEmail():
