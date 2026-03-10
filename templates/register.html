@@ -1,167 +1,400 @@
 {% extends 'layout.html' %}
 {% block body %}
-<main>
- <section class="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
-            <div class="container">
-                    <div class="col-12 d-flex align-items-center justify-content-center">
-                        <div class="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-650">
-                            <div class="text-center text-md-center mb-4 mt-md-0">
-                                <h1 class="mb-0 h3">Create an Account</h1>
-                            </div>
-							<img src="{{ url_for('static', filename='personal_information.png') }}">
-                            <div class="card-body">
-							    <form action="" method="POST" class="mt-4">
-                                    <div class="form-group">
-                                      <label for="email">EMAIL</label>
-                                      <div class="input-group mb-4">
-                                          <div class="input-group-prepend">
-                                              <span class="input-group-text"><span class="fas fa-envelope"></span></span>
-                                          </div>
-                                          <input name="email" type="email" class="form-control" id="email" placeholder="example@company.com" aria-label="email address" required>   
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="name">NAME</label>
-                                    <div class="input-group mb-4">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><span class="fas fa-user"></span></span>
-                                        </div>
-                                        <input name="name" class="form-control" id="name" placeholder="John Doe" type="text" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                  <label for="password">PASSWORD</label>
-                                  <div class="input-group mb-4">
-                                      <div class="input-group-prepend">
-                                          <span class="input-group-text"><span class="fas fa-unlock-alt"></span></span>
-                                      </div>
-                                      <input name="password" type="text" class="form-control" id="password" style="-webkit-text-security:disc;" placeholder="Password" aria-label="Password" required>
-                                  </div>
-                              </div>
-                            <div class="form-group">
-                                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Choose User Type</label>
-                                <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="user_type" required>
-                                    <option value="student">Student</option>
-                                    <option value="teacher">Professor</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                            <video id="stream" width="370" height="320">
-                                <canvas id="capture" width="370" height="320">
-                                </canvas>
-                              </video>
-                              <br>
-                                <button id="btn-capture" type="button" class="btn btn-primary justify-content-center">Capture Image</button>
-                            <br><br>
-                                <div id="snapshot"></div>
-                            <input type="hidden" id="image_hidden" name="image_hidden">
-                            </div>
-      <input type="submit" class="btn btn-primary form-group justify-content-center" value="Register">
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  body { font-family: 'DM Sans', sans-serif; background: #f0f4ff; }
+  h1,h2,h3,h4,h5,h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  .login-page {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .login-page::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%);
+    top: -100px; right: -150px;
+    pointer-events: none;
+  }
+  .login-page::after {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(6,182,212,0.06) 0%, transparent 70%);
+    bottom: -80px; left: -100px;
+    pointer-events: none;
+  }
+
+  .login-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(11,23,48,0.10);
+    border: 1px solid #e8eef7;
+    width: 100%;
+    max-width: 520px;
+    padding: 40px 40px 36px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .login-header { text-align: center; margin-bottom: 28px; }
+  .login-header .brand-dot {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, #2563eb, #06b6d4);
+    border-radius: 14px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.3);
+  }
+  .login-header .brand-dot i { color: #fff; font-size: 1.4rem; }
+  .login-header h4 { font-size: 1.4rem; font-weight: 800; color: #0b1730; margin-bottom: 4px; }
+  .login-header p { font-size: 0.88rem; color: #64748b; margin: 0; }
+
+  .login-img-wrap { text-align: center; margin-bottom: 22px; }
+  .login-img-wrap img {
+    max-width: 150px; width: 100%; height: auto;
+    filter: drop-shadow(0 4px 12px rgba(37,99,235,0.12));
+  }
+
+  .login-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+    margin: 0 0 22px; border: none;
+  }
+
+  .form-label-custom {
+    font-size: 0.83rem; font-weight: 600;
+    color: #374151; letter-spacing: 0.3px;
+    margin-bottom: 6px; display: block;
+  }
+
+  .input-group-custom { position: relative; margin-bottom: 18px; }
+  .input-group-custom .input-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: #94a3b8; font-size: 0.9rem; z-index: 5; pointer-events: none;
+  }
+  .input-group-custom input,
+  .input-group-custom select {
+    padding-left: 40px !important;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px !important;
+    height: 46px;
+    font-size: 0.9rem;
+    color: #1e293b;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #f8faff;
+    width: 100%;
+  }
+  .input-group-custom input:focus,
+  .input-group-custom select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    background: #fff;
+    outline: none;
+  }
+  .input-group-custom select { appearance: none; -webkit-appearance: none; cursor: pointer; }
+
+  /* Two column row for name + user type */
+  .form-row-custom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;
+  }
+  @media (max-width: 480px) { .form-row-custom { grid-template-columns: 1fr; } }
+
+  .camera-section {
+    background: #f8faff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .camera-label {
+    font-size: 0.8rem; font-weight: 600;
+    color: #475569; text-transform: uppercase;
+    letter-spacing: 0.8px; margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .camera-label i { color: #2563eb; }
+  .camera-section video {
+    width: 100%; max-width: 340px;
+    height: auto; aspect-ratio: 370/320;
+    border-radius: 10px;
+    background: #0b1730;
+    display: block; margin: 0 auto 10px;
+  }
+  .camera-section canvas { display: none; }
+  #snapshot img {
+    width: 100%; max-width: 340px;
+    border-radius: 10px;
+    margin-top: 8px;
+    border: 2px solid #2563eb;
+  }
+  .btn-capture-custom {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(37,99,235,0.08);
+    color: #2563eb;
+    border: 1.5px solid rgba(37,99,235,0.25);
+    border-radius: 24px;
+    padding: 7px 20px;
+    font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    margin-top: 4px;
+  }
+  .btn-capture-custom:hover { background: #2563eb; color: #fff; border-color: #2563eb; }
+
+  /* Password strength indicator */
+  .strength-bar {
+    height: 3px; border-radius: 2px;
+    background: #e2e8f0; margin-top: -12px; margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .strength-bar-fill {
+    height: 100%; width: 0%;
+    border-radius: 2px;
+    transition: width 0.3s, background 0.3s;
+  }
+
+  .btn-signin {
+    width: 100%;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 13px;
+    font-size: 0.97rem; font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 0.2px;
+    transition: transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.35);
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .btn-signin:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(37,99,235,0.45); }
+  .btn-signin:active { transform: translateY(0); }
+
+  .register-prompt {
+    text-align: center; margin-top: 20px;
+    font-size: 0.88rem; color: #64748b;
+  }
+  .register-prompt a { color: #2563eb; font-weight: 600; text-decoration: none; }
+  .register-prompt a:hover { text-decoration: underline; }
+
+  .security-badge {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin-top: 16px;
+    font-size: 0.75rem; color: #94a3b8; font-weight: 500;
+  }
+  .security-badge i { color: #22c55e; font-size: 0.8rem; }
+
+  /* Step indicators */
+  .steps-indicator {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; margin-bottom: 26px;
+  }
+  .step-dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .step-dot.active { background: #2563eb; color: #fff; box-shadow: 0 2px 8px rgba(37,99,235,0.35); }
+  .step-dot.done { background: #22c55e; color: #fff; }
+  .step-dot.pending { background: #e2e8f0; color: #94a3b8; }
+  .step-line { height: 2px; width: 36px; background: #e2e8f0; }
+  .step-line.done { background: #22c55e; }
+  .step-label {
+    font-size: 0.7rem; color: #94a3b8; font-weight: 500;
+    text-align: center; margin-top: 4px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .step-wrapper { display: flex; flex-direction: column; align-items: center; }
+</style>
+
+<div class="login-page">
+  <div class="login-card">
+
+    <!-- Header -->
+    <div class="login-header">
+      <div class="brand-dot"><i class="fas fa-user-plus"></i></div>
+      <h4>Create your account</h4>
+      <p>Join MyProctor.ai — secure, smart exam proctoring</p>
+    </div>
+
+    <!-- Step Indicator -->
+    <div class="steps-indicator">
+      <div class="step-wrapper">
+        <div class="step-dot active">1</div>
+        <div class="step-label">Details</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-wrapper">
+        <div class="step-dot pending">2</div>
+        <div class="step-label">Verify</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-wrapper">
+        <div class="step-dot pending">3</div>
+        <div class="step-label">Done</div>
+      </div>
+    </div>
+
+    <!-- Image -->
+    <div class="login-img-wrap">
+      <img src="{{ url_for('static', filename='personal_information.png') }}" alt="Register">
+    </div>
+
+    <hr class="login-divider">
+
+    <!-- Form -->
+    <form action="" method="POST">
+
+      <!-- Email -->
+      <label class="form-label-custom">Email Address</label>
+      <div class="input-group-custom">
+        <i class="fas fa-envelope input-icon"></i>
+        <input name="email" type="email" placeholder="example@company.com" required>
+      </div>
+
+      <!-- Name + User Type (side by side) -->
+      <div class="form-row-custom">
+        <div>
+          <label class="form-label-custom">Full Name</label>
+          <div class="input-group-custom">
+            <i class="fas fa-user input-icon"></i>
+            <input name="name" type="text" placeholder="John Doe" required>
+          </div>
+        </div>
+        <div>
+          <label class="form-label-custom">Register As</label>
+          <div class="input-group-custom">
+            <i class="fas fa-user-tag input-icon"></i>
+            <select name="user_type" required>
+              <option value="student">Student</option>
+              <option value="teacher">Professor</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <label class="form-label-custom">Password</label>
+      <div class="input-group-custom">
+        <i class="fas fa-lock input-icon"></i>
+        <input name="password" id="passwordInput" type="password" placeholder="Create a strong password" required>
+      </div>
+      <div class="strength-bar">
+        <div class="strength-bar-fill" id="strengthBar"></div>
+      </div>
+
+      <!-- Camera / Face Registration -->
+      <div class="camera-section">
+        <div class="camera-label">
+          <i class="fas fa-camera"></i> Face Registration
+        </div>
+        <video id="stream" autoplay playsinline></video>
+        <canvas id="capture" width="370" height="320"></canvas>
+        <div id="snapshot"></div>
+        <button id="btn-capture" type="button" class="btn-capture-custom">
+          <i class="fas fa-camera-retro"></i> Capture Photo
+        </button>
+        <input type="hidden" id="image_hidden" name="image_hidden">
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-signin">
+        <i class="fas fa-user-check mr-2"></i> Create Account
+      </button>
+
     </form>
-    <p>Already have an account?
-        <a href="/login" >Click here</a>.
-      </p>
+
+    <!-- Login link -->
+    <div class="register-prompt">
+      Already have an account?
+      <a href="/login">Sign in here →</a>
+    </div>
+
+    <!-- Security note -->
+    <div class="security-badge">
+      <i class="fas fa-check-circle"></i> 256-bit SSL Encrypted &nbsp;·&nbsp;
+      <i class="fas fa-check-circle"></i> AI Face Registered
+    </div>
+
   </div>
-  <div>
-  </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</main>
+
 <script>
-    // The buttons to start & stop stream and to capture the image
-    //var btnStart = document.getElementById( "btn-start" );
-    //var btnStop = document.getElementById( "btn-stop" );
-    var btnCapture = document.getElementById( "btn-capture" );
+  /* ── Camera (logic unchanged) ── */
+  var btnCapture   = document.getElementById("btn-capture");
+  var stream       = document.getElementById("stream");
+  var capture      = document.getElementById("capture");
+  var snapshot     = document.getElementById("snapshot");
+  var cameraStream = null;
 
-    // The stream & capture
-    var stream = document.getElementById( "stream" );
-    var capture = document.getElementById( "capture" );
-    var snapshot = document.getElementById( "snapshot" );
-    
-    // The video stream
-    var cameraStream = null;
-    
-    btnCapture.addEventListener( "click", captureSnapshot );
+  btnCapture.addEventListener("click", captureSnapshot);
 
-    // Attach listeners
-    
-    // Start Streaming
-    function startStreaming() {
-    
-      var mediaSupport = 'mediaDevices' in navigator;
-    
-      if( mediaSupport && null == cameraStream ) {
-    
-        navigator.mediaDevices.getUserMedia( { video: true } )
-        .then( function( mediaStream ) {
-    
+  function startStreaming() {
+    if ('mediaDevices' in navigator && null == cameraStream) {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(mediaStream) {
           cameraStream = mediaStream;
-    
           stream.srcObject = mediaStream;
-    
           stream.play();
         })
-        .catch( function( err ) {
-    
-          console.log( "Unable to access camera: " + err );
-        });
-      }
-      else {
-    
-        alert( 'Your browser does not support media devices.' );
-    
-        return;
-      }
+        .catch(function(err) { console.log("Camera error: " + err); });
+    } else {
+      alert('Your browser does not support media devices.');
     }
-    
-    // Stop Streaming
-    function stopStreaming() {
-    
-      if( null != cameraStream ) {
-    
-        var track = cameraStream.getTracks()[ 0 ];
-    
-        track.stop();
-        stream.load();
-    
-        cameraStream = null;
-      }
-    }
-    
-    function captureSnapshot() {
-    
-      if( null != cameraStream ) {
-    
-        var ctx = capture.getContext( '2d' );
-        var img = new Image();
-    
-        ctx.drawImage( stream, 0, 0, capture.width, capture.height );
-      
-        img.src		= capture.toDataURL( "image/png" );
-        img.width	= 370;
-        img.height	= 320;
-        //console.log(capture.toDataURL( "image/png" ));
-        snapshot.innerHTML = '';
-    
-        snapshot.appendChild( img );
-        var d1 = capture.toDataURL("image/png");
-        var res = d1.replace("data:image/png;base64,", "");
-        console.log(res);
-        snapshot.innerHTML = '';
-        snapshot.appendChild( img );
-        $("#image_hidden").val(res)    
+  }
 
-      }
+  function captureSnapshot() {
+    if (null != cameraStream) {
+      var ctx = capture.getContext('2d');
+      var img = new Image();
+      ctx.drawImage(stream, 0, 0, capture.width, capture.height);
+      img.src = capture.toDataURL("image/png");
+      img.style.width = "100%";
+      img.style.maxWidth = "340px";
+      snapshot.innerHTML = '';
+      snapshot.appendChild(img);
+      var res = capture.toDataURL("image/png").replace("data:image/png;base64,", "");
+      $("#image_hidden").val(res);
     }
-    window.onload = function() {
-       startStreaming();
-       captureSnapshot();
-    }
-    
-    </script>
+  }
+
+  /* ── Password strength bar ── */
+  document.getElementById("passwordInput").addEventListener("input", function() {
+    var val = this.value;
+    var bar = document.getElementById("strengthBar");
+    var score = 0;
+    if (val.length >= 6) score++;
+    if (val.length >= 10) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    var colors = ['#ef4444','#f97316','#eab308','#22c55e','#16a34a'];
+    var widths = ['20%','40%','60%','80%','100%'];
+    bar.style.width   = score > 0 ? widths[score-1] : '0%';
+    bar.style.background = score > 0 ? colors[score-1] : 'transparent';
+  });
+
+  window.onload = function() {
+    startStreaming();
+    captureSnapshot();
+  };
+</script>
+
 {% endblock %}

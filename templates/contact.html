@@ -1,48 +1,354 @@
 {% extends 'layout.html' %}
 {% block body %}
-<main>
-    <section class="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
-                       <div class="container">
-                                        <div class="col-12 d-flex align-items-center justify-content-center">
-                                            <div class="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-650">
-                                                <div class="text-center text-md-center mb-4 mt-md-0">
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-12 col-xl-8 text-center">
-                                                            <h1 class="display-2 mb-3">Get in touch today</h1>
-                                                            <p class="lead">Have a new project in mind? Drop us a line about your project needs, we answer same day.</p>        
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                                    <img src="{{ url_for('static', filename='contact_us_desc.png') }}">
-                            <form action="" method="POST">
-                                <div class="form-group mb-4">
-                                    <label class="h6" for="exampleInputName1">Your Name</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><span class="far fa-user"></span></span>
-                                        </div>
-                                        <input name="cname" class="form-control" placeholder="EG. John David" type="text" required>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label class="h6" for="exampleInputEmail1">Email address</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><span class="fas fa-at"></span></span>
-                                        </div>
-                                        <input name="cemail" class="form-control" placeholder="example@company.com" type="email" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="h6" for="exampleFormControlTextarea1">Your message</label>
-                                    <textarea name="cquery" class="form-control" placeholder="How can we help?" rows="4" required></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-block rounded btn-secondary mt-5">Send message</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  body { font-family: 'DM Sans', sans-serif; background: #f0f4ff; }
+  h1,h2,h3,h4,h5,h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  .contact-page {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 16px;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-page::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%);
+    top: -100px; right: -150px;
+    pointer-events: none;
+  }
+  .contact-page::after {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(6,182,212,0.06) 0%, transparent 70%);
+    bottom: -80px; left: -100px;
+    pointer-events: none;
+  }
+
+  /* ── Main wrapper ── */
+  .contact-wrapper {
+    position: relative; z-index: 1;
+    width: 100%;
+    max-width: 920px;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 8px 40px rgba(11,23,48,0.10);
+    border: 1px solid #e8eef7;
+    overflow: hidden;
+  }
+  @media (max-width: 767px) {
+    .contact-wrapper { grid-template-columns: 1fr; }
+    .contact-left { border-radius: 22px 22px 0 0; }
+  }
+
+  /* ── Left Panel ── */
+  .contact-left {
+    background: linear-gradient(160deg, #0b1730 0%, #1a3a6e 100%);
+    padding: 48px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-left::before {
+    content: '';
+    position: absolute;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    bottom: -60px; right: -60px;
+  }
+  .contact-left .brand-dot {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 50px; height: 50px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 14px;
+    margin-bottom: 22px;
+  }
+  .contact-left .brand-dot i { color: #7eb3ff; font-size: 1.3rem; }
+  .contact-left h3 {
+    font-size: 1.5rem; font-weight: 800;
+    color: #fff; margin-bottom: 10px; line-height: 1.25;
+  }
+  .contact-left p {
+    font-size: 0.88rem; color: rgba(255,255,255,0.6);
+    line-height: 1.65; margin-bottom: 32px;
+  }
+
+  /* Contact info items */
+  .contact-info-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    margin-bottom: 20px;
+  }
+  .contact-info-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.9rem; color: #7eb3ff;
+  }
+  .contact-info-label {
+    font-size: 0.72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    color: rgba(255,255,255,0.4); margin-bottom: 2px;
+    display: block;
+  }
+  .contact-info-value {
+    font-size: 0.88rem; font-weight: 500;
+    color: rgba(255,255,255,0.85);
+  }
+  .contact-info-value a {
+    color: rgba(255,255,255,0.85); text-decoration: none;
+  }
+  .contact-info-value a:hover { color: #7eb3ff; }
+
+  /* Social row */
+  .social-row { display: flex; gap: 10px; margin-top: 28px; }
+  .social-btn {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.6); font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .social-btn:hover { background: #2563eb; color: #fff; border-color: #2563eb; text-decoration: none; }
+
+  /* Contact image */
+  .contact-img { max-width: 140px; width: 100%; opacity: 0.9; margin-top: 24px; }
+
+  /* ── Right Panel (Form) ── */
+  .contact-right { padding: 48px 40px; }
+  @media (max-width: 576px) { .contact-right { padding: 32px 22px; } }
+
+  .contact-right .form-title {
+    font-size: 1.3rem; font-weight: 800;
+    color: #0b1730; margin-bottom: 6px;
+  }
+  .contact-right .form-subtitle {
+    font-size: 0.87rem; color: #64748b;
+    margin-bottom: 28px; line-height: 1.5;
+  }
+
+  .login-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+    margin: 0 0 26px; border: none;
+  }
+
+  .form-label-custom {
+    font-size: 0.83rem; font-weight: 600;
+    color: #374151; letter-spacing: 0.3px;
+    margin-bottom: 6px; display: block;
+  }
+
+  .input-group-custom { position: relative; margin-bottom: 18px; }
+  .input-group-custom .input-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: #94a3b8; font-size: 0.9rem; z-index: 5; pointer-events: none;
+  }
+  .input-group-custom.textarea-group .input-icon {
+    top: 16px; transform: none;
+  }
+  .input-group-custom input,
+  .input-group-custom textarea {
+    padding-left: 40px !important;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px !important;
+    font-size: 0.9rem; color: #1e293b;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #f8faff;
+    width: 100%;
+  }
+  .input-group-custom input { height: 46px; }
+  .input-group-custom textarea {
+    height: auto; padding-top: 12px !important; resize: none;
+  }
+  .input-group-custom input:focus,
+  .input-group-custom textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    background: #fff; outline: none;
+  }
+
+  /* Two-col row */
+  .form-row-custom {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px;
+  }
+  @media (max-width: 480px) { .form-row-custom { grid-template-columns: 1fr; } }
+
+  .btn-send {
+    width: 100%;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #fff; border: none;
+    border-radius: 12px; padding: 13px;
+    font-size: 0.97rem; font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 0.2px;
+    transition: transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.35);
+    cursor: pointer; margin-top: 4px;
+  }
+  .btn-send:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(37,99,235,0.45); }
+  .btn-send:active { transform: translateY(0); }
+
+  .security-badge {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin-top: 16px;
+    font-size: 0.75rem; color: #94a3b8; font-weight: 500;
+  }
+  .security-badge i { color: #22c55e; font-size: 0.8rem; }
+
+  /* Response time badge */
+  .response-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(34,197,94,0.08);
+    color: #16a34a;
+    border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 0.75rem; font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .response-badge span.dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #22c55e;
+    display: inline-block;
+    animation: blink 1.4s infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+</style>
+
+<div class="contact-page">
+  <div class="contact-wrapper">
+
+    <!-- ── LEFT PANEL ── -->
+    <div class="contact-left">
+      <div>
+        <div class="brand-dot"><i class="fas fa-headset"></i></div>
+        <h3>Let's talk.<br>We'd love to hear from you.</h3>
+        <p>Have a question, suggestion, or want to know more about MyProctor.ai? We're here to help.</p>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <span class="contact-info-label">Address</span>
+            <span class="contact-info-value">Mohali, Punjab — Landran 140307</span>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="fas fa-phone-volume"></i></div>
+          <div>
+            <span class="contact-info-label">Phone</span>
+            <span class="contact-info-value">
+              <a href="tel:+916206047804">+91 6206047804</a>
+            </span>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="far fa-paper-plane"></i></div>
+          <div>
+            <span class="contact-info-label">Email</span>
+            <span class="contact-info-value">
+              <a href="mailto:abhishek.pathak01111@gmail.com">abhishek.pathak01111@gmail.com</a>
+            </span>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon"><i class="fas fa-clock"></i></div>
+          <div>
+            <span class="contact-info-label">Support Hours</span>
+            <span class="contact-info-value">Mon – Sat, 7am – 11pm</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <img src="{{ url_for('static', filename='contact_us_desc.png') }}" class="contact-img" alt="Contact Us">
+        <div class="social-row">
+          <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-github"></i></a>
+          <a href="mailto:abhishek.pathak01111@gmail.com" class="social-btn"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RIGHT PANEL (Form) ── -->
+    <div class="contact-right">
+
+      <div class="response-badge">
+        <span class="dot"></span> We reply within 24 hours
+      </div>
+
+      <p class="form-title">Send us a message</p>
+      <p class="form-subtitle">Drop us a line about your project needs — we answer same day.</p>
+
+      <hr class="login-divider">
+
+      <form action="" method="POST">
+
+        <!-- Name + Email side by side -->
+        <div class="form-row-custom">
+          <div>
+            <label class="form-label-custom">Your Name</label>
+            <div class="input-group-custom">
+              <i class="far fa-user input-icon"></i>
+              <input name="cname" type="text" placeholder="John Doe" required>
             </div>
-            </section>
-            </main>
+          </div>
+          <div>
+            <label class="form-label-custom">Email Address</label>
+            <div class="input-group-custom">
+              <i class="fas fa-at input-icon"></i>
+              <input name="cemail" type="email" placeholder="example@company.com" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message -->
+        <label class="form-label-custom">Your Message</label>
+        <div class="input-group-custom textarea-group">
+          <i class="fas fa-comment-dots input-icon"></i>
+          <textarea name="cquery" rows="5" placeholder="How can we help you today?" required></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-send">
+          <i class="fas fa-paper-plane mr-2"></i> Send Message
+        </button>
+
+      </form>
+
+      <div class="security-badge">
+        <i class="fas fa-check-circle"></i> Your data is safe &nbsp;·&nbsp;
+        <i class="fas fa-check-circle"></i> No spam, ever
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
 {% endblock %}

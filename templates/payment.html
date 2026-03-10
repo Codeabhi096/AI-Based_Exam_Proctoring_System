@@ -1,63 +1,93 @@
 {% extends 'professor_dashboard.html' %}
 {% block body %}
-    <div class="row align-items-center d-flex  justify-content-center">
-      <div class="col-12 mb-4">
-          <div class="card border-light shadow-sm components-section align-items-center d-flex  justify-content-center">
-              <div class="card-body align-items-center d-flex justify-content-center">     
-                  <div class="row mb-4">
-    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-            <center><img src="static/stripe_payments.png" alt="pay_stripe" width="50%"></center><br>
-            <h3 class="text-primary mb-4 justify-content-center">
-              <center> Your Current Exam Points left are: {{callresults['examcredits']}}</center>
-              </h3>
-              <div class="card-header bg-white p-3 justify-content-center">
-                  <center>
-                  <span class="d-block">
-                      <span class="display-1 text-dark font-weight-bold">
-                          <span class="align-top font-medium">₹</span>499
-                  </span>
-                  <span class="text-primary mb-4">10 exams</span>
-                  </span>
-                </center>
-              </div>
-              <div class="card-body justify-content-center">
-                <center>
-                  <ul class="list-unstyled mb-4 justify-content-center">
-                      <li class="list-item pb-3 justify-content-center"><strong>Exam Analytics</strong></li>
-                      <li class="list-item pb-3 justify-content-center"><strong>Monitor Students</strong></li>
-                      <li class="list-item pb-3 justify-content-center"><strong>Unlimited Student Capacity</strong></li>
-                      <li class="list-item pb-3 justify-content-center"><strong>24 * 7 Community support </strong></li>
-                  </ul>
-                </center>
-                  <button type="button"id="checkout-button" class="btn btn-primary btn-block animate-up-1">Pay Now!</button>
-              </div>
-          </div>
+
+<div class="row justify-content-center mt-4">
+  <div class="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-4">
+
+    <div class="card border-0 shadow-sm rounded-lg overflow-hidden">
+
+      <!-- Stripe Logo -->
+      <div class="text-center pt-4 pb-2 px-4">
+        <img src="static/stripe_payments.png" alt="Stripe Payments"
+             style="max-width: 180px; width: 100%; height: auto;">
       </div>
-  </div>
+
+      <!-- Exam Credits Badge -->
+      <div class="text-center px-4 pb-3">
+        <span class="badge"
+              style="background:#e8f0fe; color:#3a5bd9; font-size:0.85rem; padding:7px 14px; border-radius:20px;">
+          <i class="fas fa-graduation-cap mr-1"></i>
+          Exam Points Remaining: <strong>{{ callresults['examcredits'] }}</strong>
+        </span>
       </div>
+
+      <hr class="mt-0 mb-0" style="border-color:#eef0f5;">
+
+      <!-- Pricing Header -->
+      <div class="text-center px-4 pt-4 pb-2">
+        <p class="text-muted mb-1" style="font-size:0.82rem; text-transform:uppercase; letter-spacing:1px; font-weight:600;">One-Time Pack</p>
+        <div class="d-flex align-items-start justify-content-center">
+          <span style="font-size:1.3rem; font-weight:700; color:#1c2540; margin-top:8px;">&#8377;</span>
+          <span style="font-size:3.8rem; font-weight:800; color:#1c2540; line-height:1;">499</span>
+        </div>
+        <span class="badge badge-primary px-3 py-1 mt-1" style="font-size:0.8rem; border-radius:20px;">
+          10 Exams
+        </span>
+      </div>
+
+      <!-- Features List -->
+      <div class="px-4 pt-3 pb-2">
+        <ul class="list-unstyled mb-0">
+          <li class="d-flex align-items-center py-2" style="border-bottom:1px solid #f0f2f8;">
+            <i class="fas fa-check-circle text-success mr-3"></i>
+            <span style="font-size:0.9rem; color:#2d3748;">Exam Analytics</span>
+          </li>
+          <li class="d-flex align-items-center py-2" style="border-bottom:1px solid #f0f2f8;">
+            <i class="fas fa-check-circle text-success mr-3"></i>
+            <span style="font-size:0.9rem; color:#2d3748;">Monitor Students</span>
+          </li>
+          <li class="d-flex align-items-center py-2" style="border-bottom:1px solid #f0f2f8;">
+            <i class="fas fa-check-circle text-success mr-3"></i>
+            <span style="font-size:0.9rem; color:#2d3748;">Unlimited Student Capacity</span>
+          </li>
+          <li class="d-flex align-items-center py-2">
+            <i class="fas fa-check-circle text-success mr-3"></i>
+            <span style="font-size:0.9rem; color:#2d3748;">24 x 7 Community Support</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Pay Button -->
+      <div class="px-4 pb-4 pt-3">
+        <button type="button" id="checkout-button"
+                class="btn btn-primary btn-block"
+                style="padding:12px; font-size:1rem; font-weight:600; border-radius:8px;">
+          <i class="fas fa-lock mr-2"></i> Pay &#8377;499 Securely
+        </button>
+        <p class="text-center text-muted mt-2 mb-0" style="font-size:0.75rem;">
+          <i class="fas fa-shield-alt mr-1"></i> Secured by Stripe
+        </p>
+      </div>
+
     </div>
-    <script type="text/javascript">
-    var stripe = Stripe("pk_test_51ISHOsAGsy3DJu1jc1IfuLYDkED8d1QPRl5e8RTU7mdcZpELeGEysYFH4NfjLoPiIkRpghWUHmUH7QpOk1sgzM8X00prZwtaX9");
-    var checkoutButton = document.getElementById("checkout-button");
-    checkoutButton.addEventListener("click", function () {
-      fetch("/create-checkout-session", {
-        method: "POST",
+  </div>
+</div>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript">
+  var stripe = Stripe("pk_test_51ISHOsAGsy3DJu1jc1IfuLYDkED8d1QPRl5e8RTU7mdcZpELeGEysYFH4NfjLoPiIkRpghWUHmUH7QpOk1sgzM8X00prZwtaX9");
+  document.getElementById("checkout-button").addEventListener("click", function () {
+    fetch("/create-checkout-session", { method: "POST" })
+      .then(function (response) { return response.json(); })
+      .then(function (session) {
+        return stripe.redirectToCheckout({ sessionId: session.id });
       })
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (session) {
-          return stripe.redirectToCheckout({ sessionId: session.id });
-        })
-        .then(function (result) {
-          if (result.error) {
-            alert(result.error.message);
-          }
-        })
-        .catch(function (error) {
-          console.error("Error:", error);
-        });
-    });
-  </script>
+      .then(function (result) {
+        if (result.error) alert(result.error.message);
+      })
+      .catch(function (error) { console.error("Error:", error); });
+  });
+</script>
+
 {% endblock %}
