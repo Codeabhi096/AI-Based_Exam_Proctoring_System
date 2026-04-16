@@ -1,0 +1,239 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<main>
+  <section class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+
+          <!-- Header -->
+          <div class="text-center mb-4">
+            <h2 class="font-weight-bold mb-2">Frequently Asked Questions</h2>
+            <p class="text-muted">Everything you need to know about MyProctor</p>
+          </div>
+
+          <!-- Image -->
+          <div class="text-center mb-4">
+            <img src="{{ url_for('static', filename='questions_desc.png') }}"
+                 alt="FAQ" style="max-width: 220px; width: 100%; height: auto;">
+          </div>
+
+          <!-- Accordion -->
+          <div class="accordion" id="faqAccordion">
+
+            <!-- General FAQs -->
+            <div class="card border-0 shadow-sm mb-3 rounded-lg overflow-hidden">
+              <div class="card-header bg-white px-4 py-3" id="heading1">
+                <a href="#panel-1" data-toggle="collapse" data-target="#panel-1"
+                   class="d-flex justify-content-between align-items-center text-decoration-none"
+                   aria-expanded="false" aria-controls="panel-1">
+                  <span class="h6 mb-0 font-weight-bold text-dark">
+                    <i class="fas fa-globe mr-2 text-primary"></i> General FAQ's
+                  </span>
+                  <i class="fas fa-chevron-down text-muted" style="font-size:0.8rem; transition:transform 0.2s;"></i>
+                </a>
+              </div>
+              <div class="collapse" id="panel-1">
+                <div class="card-body px-4 pt-2 pb-4">
+                  {% set general_faqs = [
+                    ("How does MyProctor integrate with my learning management or test delivery system?",
+                     "Our platform integrates with all major learning systems, including Blackboard, Canvas, Moodle, D2L, and more, with the option to utilize our API for custom integrations. We can even help you find a test delivery system if you are transitioning your program online from paper-based exams."),
+                    ("How can you meet our high stakes requirements?",
+                     "We work with exams that have complex requirements all the time. Our Live+ service offers additional levels of customization and specialized proctor training for things like exam start procedures, security measures, and test-taker interaction rules."),
+                    ("How do you handle high volumes?",
+                     "We operate multiple facilities around the world and our ability to scale has been tested and perfected over 12 years. We use historical information and technology solutions to aid us in determining needs for head-count, training, and other logistics.")
+                  ] %}
+                  {% for q, a in general_faqs %}
+                  <div class="py-3 {% if not loop.last %}border-bottom{% endif %}">
+                    <h6 class="font-weight-bold text-dark mb-2">{{ q }}</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">{{ a }}</p>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+
+            <!-- Compliance & Privacy FAQs -->
+            <div class="card border-0 shadow-sm mb-3 rounded-lg overflow-hidden">
+              <div class="card-header bg-white px-4 py-3" id="heading2">
+                <a href="#panel-2" data-toggle="collapse" data-target="#panel-2"
+                   class="d-flex justify-content-between align-items-center text-decoration-none"
+                   aria-expanded="false" aria-controls="panel-2">
+                  <span class="h6 mb-0 font-weight-bold text-dark">
+                    <i class="fas fa-shield-alt mr-2 text-success"></i> Compliance and Privacy FAQs
+                  </span>
+                  <i class="fas fa-chevron-down text-muted" style="font-size:0.8rem;"></i>
+                </a>
+              </div>
+              <div class="collapse" id="panel-2">
+                <div class="card-body px-4 pt-2 pb-4">
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">What are some of the key focus areas in compliance?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">Privacy and data security are always top of mind for MyProctor. The laws are changing quickly in this area all across the globe, and we're constantly enhancing our policies and practices to ensure we are protecting our users' information and adhering to applicable privacy laws.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">How do you communicate these policies with test-takers?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">Test-takers can review our privacy policy at any time at Myproctor.ai/privacy-policy. We also communicate our privacy practices to users when they set up an account with us and when they begin an online testing session.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">Why does MyProctor need to access any test-taker data?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">Our key responsibility is to ensure fairness and integrity in the testing process. We use alternative methods to verify test-taker identity and ensure the testing environment is fair to everyone.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">Is MyProctor selling or using test-taker data for other purposes?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">No. We only use the data captured during test sessions to conduct online proctoring. MyProctor does not use any test-taker's personal information for any purpose other than facilitating the proctoring of online exams.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">What do you do to prevent cheating?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">Depending on parameters set by the test provider, we can lock down internet access, monitor video/audio recordings, and use our Live+ solution to monitor in real-time. All measures are disclosed to the test-taker before the test starts.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">What happens with data once an exam ends?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">Proctoring session data is stored in US-based AES-256 encrypted servers. Recordings are automatically deleted per NIST 800-88 guidelines after two years.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">Does MyProctor do anything else with recordings or student information?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">No. The information and recordings belong to the testing institution. We do not own the data, don't sell it, and never market to test-takers.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">How can test-takers be sure MyProctor is no longer accessing their computer?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">Once the LogMeIn applet is closed, the proctor and MyProctor will no longer be able to access the computer or any information on it.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">What will my exam experience be like?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">MyProctor balances exam security with test-taker experience. Steps may include getting permission to remotely access your computer to ensure no unpermitted resources are running. The test-taker can revoke access at any time.</p>
+                  </div>
+
+                  <div class="py-3">
+                    <h6 class="font-weight-bold text-dark mb-2">Where can I find the most recent MyProctor privacy policy?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">
+                      Visit <a href="https://www.MyProctor.com/privacy-policy" target="_blank">MyProctor.com/privacy-policy</a>.
+                      California residents: <a href="https://www.MyProctor.com/ca-privacy-policy" target="_blank">CCPA Policy</a>.
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Proctoring Process FAQs -->
+            <div class="card border-0 shadow-sm mb-3 rounded-lg overflow-hidden">
+              <div class="card-header bg-white px-4 py-3" id="heading3">
+                <a href="#panel-3" data-toggle="collapse" data-target="#panel-3"
+                   class="d-flex justify-content-between align-items-center text-decoration-none"
+                   aria-expanded="false" aria-controls="panel-3">
+                  <span class="h6 mb-0 font-weight-bold text-dark">
+                    <i class="fas fa-video mr-2 text-warning"></i> Proctoring Process FAQs
+                  </span>
+                  <i class="fas fa-chevron-down text-muted" style="font-size:0.8rem;"></i>
+                </a>
+              </div>
+              <div class="collapse" id="panel-3">
+                <div class="card-body px-4 pt-2 pb-4">
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">What do your proctors watch during an exam?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">We look for aberrant behavior such as looking off screen, accessing unpermitted materials, speaking aloud, or allowing other people in the room.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">Can proctors access test-taker computers without their knowledge?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">No. Test-takers must agree to give permission. All proctor activity can be seen by test-takers in real-time.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">Do you switch proctors during Live+ tests?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">Sometimes, due to lunch breaks and shift changes. Test-takers are not interrupted and are never left unwatched.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">How do proctors stop integrity violations?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">During Live+ exams, proctors can communicate with test-takers through webcam. Intervention Specialists are invited if suspicious behavior is suspected.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">How does technology help human proctors?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">Technology flags activities that might violate integrity requirements. All technology alerts must be verified by a human proctor or exam administrator.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">How does MyProctor flag behaviors?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">Our system flags and timestamps events into an easy-to-read timeline that allows proctors to click and jump to that moment in the exam recording.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">Are exam video recordings always available?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">Yes. All videos are kept up to a year unless a different period is requested. Live Look-In lets you watch test-takers in real time.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">How do you verify test-taker identities?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">Options include public records challenge questions, keystroke biometrics, ID capture, and facial comparison. Any mismatch alerts human proctors.</p>
+                  </div>
+
+                  <div class="py-3 border-bottom">
+                    <h6 class="font-weight-bold text-dark mb-2">Do I have to review exam sessions?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">With Live+ or Review+, our proctors send reports of sessions needing attention. With Record+, the exam administrator reviews every session.</p>
+                  </div>
+
+                  <div class="py-3">
+                    <h6 class="font-weight-bold text-dark mb-2">Can you proctor paper and pencil exams?</h6>
+                    <p class="text-muted mb-0" style="font-size:0.9rem; line-height:1.6;">We no longer proctor paper-based exams, but we can help you find a test delivery system to transition your program online.</p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Support FAQs -->
+            <div class="card border-0 shadow-sm mb-3 rounded-lg overflow-hidden">
+              <div class="card-header bg-white px-4 py-3" id="heading4">
+                <a href="#panel-4" data-toggle="collapse" data-target="#panel-4"
+                   class="d-flex justify-content-between align-items-center text-decoration-none"
+                   aria-expanded="false" aria-controls="panel-4">
+                  <span class="h6 mb-0 font-weight-bold text-dark">
+                    <i class="fas fa-headset mr-2 text-danger"></i> Support FAQs
+                  </span>
+                  <i class="fas fa-chevron-down text-muted" style="font-size:0.8rem;"></i>
+                </a>
+              </div>
+              <div class="collapse" id="panel-4">
+                <div class="card-body px-4 pt-2 pb-4">
+                  <div class="py-3">
+                    <h6 class="font-weight-bold text-dark mb-2">What kind of technical assistance do you provide?</h6>
+                    <p class="text-muted mb-2" style="font-size:0.9rem; line-height:1.6;">Technical and administrative support is available 24/7:</p>
+                    <div class="d-flex flex-column gap-2" style="gap:8px;">
+                      <span style="font-size:0.9rem;">
+                        <i class="fas fa-phone mr-2 text-primary"></i>
+                        <a href="tel:6206047804">6206047804</a>
+                      </span>
+                      <span style="font-size:0.9rem;">
+                        <i class="fas fa-envelope mr-2 text-primary"></i>
+                        <a href="mailto:abhishek.pathak01111@gmail.com">abhishek.pathak01111@gmail.com</a>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- end accordion -->
+
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+{% endblock %}
