@@ -1,99 +1,349 @@
 <script src="{{ url_for('static', filename='volt/vendor/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-<header class="header-global">
-   <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-theme-primary bg-white fixed-top"> 
-<div class="container">
-    <a class="navbar-brand" href="/"><span style="font-size:18px;"><center><lottie-player src="https://assets1.lottiefiles.com/packages/lf20_wEt2nn.json"  background="transparent"  speed="1"  style="width: 70px; height: 50px;"  loop  autoplay></lottie-player>MyProctor.ai</center></span></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon">   
-        <i class="fas fa-bars" style="color:#1c2540; font-size:28px;"></i>
-    </span>
-    </button>  
-   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-     <ul class="nav navbar-nav ml-auto">
-      {% if session.logged_in %}
-      {% if session.user_role == "student" %}
-      <li class="nav-item ">
-        <a class="nav-link" id="active1" href="/student_index"><span class="fas fa-columns" > Dashboard</span></a></li>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="active2" href="/changepassword_student"><span class="fas fa-key" > Change Password</span></a></li>
-      </li>
-      {% endif %}
-      {% if session.user_role == "teacher" %}
-      <li class="nav-item ">
-        <a class="nav-link" id="active1" href="/professor_index"><span class="fas fa-columns" > Dashboard</span></a></li>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="active2" href="/changepassword_professor"><span class="fas fa-key" > Change Password</span></a></li>
-      </li>
-      {% endif %}
-        <li class="nav-item">
-          <a class="nav-link" id="active3" href="/contact"><span class="fas fa-phone-alt" > Contact Us</span></a></li>
 
-          <li class="nav-item">
-            <a class="nav-link" id="active4" href="/faq"><span class="fas fa-question" > FAQ</span></a></li>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
 
-          <li class="nav-item">
-            <a class="nav-link" id="active4" href ="#" onclick="return funLogout()" class="btn btn-secondary text-dark btn-xs"><span class="fas fa-sign-out-alt" > Logout</span></a></li>
-    {% else %}
-    <li class="nav-item">
-      <a class="nav-link" id="active6"  href="/login"><span class="fas fa-sign-in-alt" > Login</span></a></li>
-    </li>
-      <li class="nav-item">
-        <a class="nav-link" id="active5" href="/register"><span class="fas fa-user-plus" > Register</span></a></li>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="active8"  href="/contact"><span class="fas fa-phone-alt" > Contact Us</span></a></li>
-</li>  
-      <li class="nav-item">
-        <a class="nav-link" id="active7"  href="/faq"><span class="fas fa-question" > FAQ</span></a></li>
-              </li>   
- {% endif %}
-	  </ul>
-	</div>
-	</div>
-</nav>
-</header>
-<script>
-   function funLogout () {
-swal.fire({
-  title: 'Are you sure?',
-  text: "Do you really want to logout?",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonText: 'Yes, Logout me!',
-  cancelButtonText: 'No!',
-  confirmButtonColor: '#d33',
-  cancelButtonColor: '#202124',
-  reverseButtons: true
-}).then((result) => {
-  if (result.isConfirmed) {
-              $.ajax({
-                    type: "POST",
-                    url: "/logout",
-                    success: function(response){
-                      if(response=="success")
-                      {
-                      console.log(response);
-    window.location.href = "/";
-                      }
-}
-                });  
-      swal.fire(
-      'Success!',
-      'You are successfully has been sign out from the system.',
-      'success'
-    )
-  } else if (
-    result.dismiss === Swal.DismissReason.cancel
-  ) {
-    swal.fire(
-      'Cancelled',
-      'Logout cancelled.',
-      'error'
-    )
+  :root {
+    --nav-bg: rgba(8, 15, 35, 0.96);
+    --nav-border: rgba(255,255,255,0.07);
+    --nav-accent: #3b7fff;
+    --nav-accent2: #06c2d4;
+    --nav-text: rgba(255,255,255,0.78);
+    --nav-text-hover: #ffffff;
+    --nav-height: 66px;
   }
-})
-}
+
+  * { box-sizing: border-box; }
+
+  /* ── NAVBAR BASE ── */
+  #navbar-main {
+    background: var(--nav-bg) !important;
+    backdrop-filter: blur(18px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+    border-bottom: 1px solid var(--nav-border) !important;
+    padding: 0 !important;
+    height: var(--nav-height);
+    position: fixed !important;
+    top: 0; left: 0; right: 0;
+    z-index: 1050;
+    transition: background 0.3s, box-shadow 0.3s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  #navbar-main.scrolled {
+    background: rgba(8, 15, 35, 0.99) !important;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.35) !important;
+  }
+
+  #navbar-main .container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  /* ── BRAND ── */
+  #navbar-main .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.18rem;
+    color: #fff !important;
+    letter-spacing: -0.3px;
+    text-decoration: none;
+    padding: 0;
+    line-height: 1;
+  }
+
+  #navbar-main .navbar-brand lottie-player {
+    width: 44px !important;
+    height: 44px !important;
+    flex-shrink: 0;
+  }
+
+  #navbar-main .navbar-brand .brand-text {
+    background: linear-gradient(90deg, #fff 0%, #a8c8ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  #navbar-main .navbar-brand .brand-dot {
+    background: linear-gradient(135deg, var(--nav-accent), var(--nav-accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── NAV LINKS ── */
+  #navbar-main .navbar-nav {
+    align-items: center;
+    gap: 2px;
+  }
+
+  #navbar-main .navbar-nav .nav-link {
+    color: var(--nav-text) !important;
+    font-size: 0.875rem !important;
+    font-weight: 500;
+    padding: 7px 13px !important;
+    border-radius: 8px;
+    transition: color 0.18s, background 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+    text-decoration: none !important;
+    position: relative;
+  }
+
+  #navbar-main .navbar-nav .nav-link i {
+    font-size: 0.78rem;
+    opacity: 0.7;
+    transition: opacity 0.18s;
+  }
+
+  #navbar-main .navbar-nav .nav-link:hover {
+    color: var(--nav-text-hover) !important;
+    background: rgba(255,255,255,0.08) !important;
+  }
+
+  #navbar-main .navbar-nav .nav-link:hover i { opacity: 1; }
+
+  /* ── ACTIVE LINK ── */
+  #navbar-main .navbar-nav .nav-link.active-link {
+    color: #fff !important;
+    background: rgba(59,127,255,0.15) !important;
+  }
+
+  /* ── CTA BUTTONS ── */
+  #navbar-main .nav-cta-login {
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    border-radius: 24px !important;
+    padding: 7px 18px !important;
+  }
+  #navbar-main .nav-cta-login:hover {
+    border-color: rgba(255,255,255,0.45) !important;
+    background: rgba(255,255,255,0.08) !important;
+  }
+
+  #navbar-main .nav-cta-primary {
+    background: linear-gradient(135deg, #2563eb, #3b7fff) !important;
+    color: #fff !important;
+    border-radius: 24px !important;
+    padding: 7px 20px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 3px 16px rgba(37,99,235,0.38);
+    transition: transform 0.18s, box-shadow 0.18s, background 0.18s !important;
+    margin-left: 4px;
+  }
+  #navbar-main .nav-cta-primary:hover {
+    background: linear-gradient(135deg, #3b7fff, #06c2d4) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(37,99,235,0.5) !important;
+  }
+
+  /* ── LOGOUT LINK ── */
+  #navbar-main .nav-logout {
+    color: rgba(255,100,100,0.75) !important;
+    border: 1px solid rgba(255,80,80,0.2) !important;
+    border-radius: 24px !important;
+    padding: 7px 16px !important;
+    margin-left: 4px;
+  }
+  #navbar-main .nav-logout:hover {
+    color: #ff6464 !important;
+    background: rgba(255,80,80,0.08) !important;
+    border-color: rgba(255,80,80,0.4) !important;
+  }
+
+  /* ── HAMBURGER ── */
+  #navbar-main .navbar-toggler {
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    padding: 7px 11px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    transition: background 0.2s;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  #navbar-main .navbar-toggler:hover { background: rgba(255,255,255,0.1); }
+  #navbar-main .navbar-toggler i { color: rgba(255,255,255,0.85); font-size: 16px; }
+
+  /* ── PILL BADGE on brand ── */
+  .nav-badge {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #2563eb, #06c2d4);
+    color: #fff;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-left: 2px;
+    vertical-align: middle;
+    -webkit-text-fill-color: #fff;
+  }
+
+  /* ── MOBILE COLLAPSE ── */
+  @media (max-width: 991px) {
+    #navbar-main .navbar-collapse {
+      background: rgba(8, 15, 35, 0.98);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 12px 0 16px;
+      margin-top: 0;
+      border-radius: 0 0 16px 16px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    }
+    #navbar-main .navbar-nav { gap: 2px; padding: 0 12px; }
+    #navbar-main .navbar-nav .nav-link { padding: 10px 14px !important; }
+    #navbar-main .nav-cta-primary { margin-left: 0; margin-top: 6px; text-align: center; justify-content: center; }
+  }
+
+  /* ── BODY OFFSET ── */
+  body { padding-top: var(--nav-height) !important; }
+</style>
+
+<header class="header-global">
+  <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg fixed-top">
+    <div class="container">
+
+      <!-- Brand -->
+      <a class="navbar-brand" href="/">
+        <lottie-player
+          src="https://assets1.lottiefiles.com/packages/lf20_wEt2nn.json"
+          background="transparent" speed="1" loop autoplay>
+        </lottie-player>
+        <span class="brand-text">MyProctor</span><span class="brand-dot">.ai</span>
+        <span class="nav-badge">Beta</span>
+      </a>
+
+      <!-- Toggler -->
+      <button class="navbar-toggler" type="button"
+        data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Links -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav navbar-nav ml-auto">
+
+          {% if session.logged_in %}
+            {% if session.user_role == "student" %}
+              <li class="nav-item">
+                <a class="nav-link" href="/student_index">
+                  <i class="fas fa-th-large"></i> Dashboard
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/changepassword_student">
+                  <i class="fas fa-key"></i> Change Password
+                </a>
+              </li>
+            {% endif %}
+            {% if session.user_role == "teacher" %}
+              <li class="nav-item">
+                <a class="nav-link" href="/professor_index">
+                  <i class="fas fa-th-large"></i> Dashboard
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/changepassword_professor">
+                  <i class="fas fa-key"></i> Change Password
+                </a>
+              </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="/contact">
+                <i class="fas fa-phone-alt"></i> Contact
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/faq">
+                <i class="fas fa-question-circle"></i> FAQ
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-logout" href="#" onclick="return funLogout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </li>
+
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="/contact">
+                <i class="fas fa-phone-alt"></i> Contact
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/faq">
+                <i class="fas fa-question-circle"></i> FAQ
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-cta-login" href="/login">
+                <i class="fas fa-sign-in-alt"></i> Login
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-cta-primary" href="/register">
+                <i class="fas fa-rocket"></i> Get Started
+              </a>
+            </li>
+          {% endif %}
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Scrolled state
+  window.addEventListener('scroll', function () {
+    var nav = document.getElementById('navbar-main');
+    if (nav) {
+      if (window.scrollY > 20) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    }
+  });
+
+  // Active link highlight
+  (function () {
+    var path = window.location.pathname;
+    document.querySelectorAll('#navbar-main .nav-link').forEach(function (a) {
+      if (a.getAttribute('href') && a.getAttribute('href') !== '#' && path.startsWith(a.getAttribute('href'))) {
+        a.classList.add('active-link');
+      }
+    });
+  })();
+
+  // Logout
+  function funLogout() {
+    swal.fire({
+      title: 'Logout?',
+      text: 'Do you really want to sign out?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Logout',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#374151',
+      reverseButtons: true,
+      background: '#0f172a',
+      color: '#f1f5f9',
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        $.ajax({
+          type: 'POST', url: '/logout',
+          success: function (res) {
+            if (res === 'success') window.location.href = '/';
+          }
+        });
+      }
+    });
+    return false;
+  }
 </script>

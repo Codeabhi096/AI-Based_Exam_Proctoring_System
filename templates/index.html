@@ -2,494 +2,622 @@
 {% block body %}
 
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 
-<!-- ══ MOBILE WARNING BANNER ══ -->
+<!-- ══ MOBILE WARNING ══ -->
 <div id="mob-warning" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;
-  background:linear-gradient(90deg,#0b1730,#1a3a6e);color:#fff;padding:14px 20px;
-  text-align:center;box-shadow:0 -4px 20px rgba(0,0,0,0.3);font-family:'DM Sans',sans-serif;">
-  <span style="font-size:1.1rem;margin-right:6px;">🖥️</span>
-  <strong>Best viewed on Desktop.</strong>
-  <span style="opacity:0.82;font-size:0.88rem;"> Switch to <strong>Desktop Mode</strong> for the full experience.</span>
+  background:linear-gradient(90deg,#080f23,#1a3a6e);color:#fff;padding:14px 20px;
+  text-align:center;box-shadow:0 -4px 20px rgba(0,0,0,0.4);font-family:'DM Sans',sans-serif;border-top:1px solid rgba(255,255,255,0.1);">
+  <span style="font-size:1rem;margin-right:6px;">🖥️</span>
+  <strong>Best on Desktop.</strong>
+  <span style="opacity:0.78;font-size:0.85rem;"> Switch to <strong>Desktop Mode</strong> for full experience.</span>
   <button onclick="document.getElementById('mob-warning').style.display='none'"
-    style="margin-left:14px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);
-    color:#fff;padding:4px 14px;border-radius:20px;font-size:0.8rem;cursor:pointer;">✕ Dismiss</button>
+    style="margin-left:12px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);
+    color:#fff;padding:3px 12px;border-radius:20px;font-size:0.78rem;cursor:pointer;">✕</button>
 </div>
 <script>
-  (function(){
-    var isMobileDevice = ('ontouchstart' in window) && window.innerWidth < 992;
-    if(isMobileDevice) document.getElementById('mob-warning').style.display='block';
-  })();
+  if(('ontouchstart' in window) && window.innerWidth < 992)
+    document.getElementById('mob-warning').style.display = 'block';
 </script>
 
 <style>
-  /* ══ NAVBAR ELEGANT OVERRIDE ══ */
-  .navbar {
-    background: #0b1730 !important;
-    padding: 10px 0 !important;
-    box-shadow: 0 2px 20px rgba(11,23,48,0.22) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
-  }
-  .navbar-brand {
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-    font-size: 1.2rem !important;
-    font-weight: 800 !important;
-    color: #fff !important;
-    letter-spacing: 0.3px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .navbar-brand:hover { color: #7eb3ff !important; text-decoration: none; }
-  .navbar-nav .nav-link {
-    color: rgba(255,255,255,0.75) !important;
-    font-size: 0.9rem !important;
-    font-weight: 500;
-    padding: 8px 13px !important;
-    border-radius: 6px;
-    transition: color 0.15s, background 0.15s;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .navbar-nav .nav-link:hover {
-    color: #fff !important;
-    background: rgba(255,255,255,0.09) !important;
-    text-decoration: none;
-  }
-  .navbar-nav .nav-link.active,
-  .navbar-nav .nav-item.active .nav-link {
-    color: #7eb3ff !important;
-    background: rgba(37,99,235,0.15) !important;
-  }
-  /* Navbar CTA button */
-  .navbar .btn,
-  .navbar-nav .nav-item:last-child .nav-link {
-    background: #2563eb !important;
-    color: #fff !important;
-    border-radius: 24px !important;
-    padding: 8px 22px !important;
-    font-weight: 600 !important;
-    margin-left: 6px;
-    box-shadow: 0 2px 10px rgba(37,99,235,0.35);
-    transition: background 0.2s, transform 0.15s;
-  }
-  .navbar .btn:hover,
-  .navbar-nav .nav-item:last-child .nav-link:hover {
-    background: #3b82f6 !important;
-    transform: translateY(-1px);
-  }
-  .navbar-toggler {
-    border-color: rgba(255,255,255,0.3) !important;
-    padding: 5px 10px;
-  }
-  .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.8)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
-  }
-  .navbar-collapse { padding: 8px 0; }
-  /* Kill white line under navbar */
-  .navbar { border-bottom: none !important; margin-bottom: 0 !important; }
-  .navbar + * { margin-top: 0 !important; padding-top: 0 !important; }
-  nav.navbar ~ hr, nav.navbar + hr { display: none !important; }
-  body > hr:first-of-type { display: none !important; }
-  .content-bg, main > hr { margin-top: 0 !important; }
-  /* Remove any Bootstrap default divider after nav */
-  .navbar-expand-lg { border-bottom: none !important; }
-
   :root {
-    --navy:   #0b1730;
-    --blue:   #2563eb;
-    --blue-light: #3b82f6;
-    --accent: #06b6d4;
-    --text:   #1e293b;
-    --muted:  #64748b;
-    --bg:     #f8faff;
-    --white:  #ffffff;
-    --card-shadow: 0 4px 24px rgba(11,23,48,0.08);
-    --radius: 16px;
+    --navy:       #060d1f;
+    --navy2:      #0b1730;
+    --blue:       #2563eb;
+    --blue-l:     #3b7fff;
+    --cyan:       #06c2d4;
+    --white:      #ffffff;
+    --off-white:  #f0f5ff;
+    --text:       #0f172a;
+    --muted:      #64748b;
+    --border:     #e2e8f0;
+    --card-bg:    #ffffff;
+    --section-bg: #f8faff;
+    --radius-sm:  10px;
+    --radius:     16px;
+    --radius-lg:  24px;
+    --shadow:     0 4px 24px rgba(11,23,48,0.08);
+    --shadow-lg:  0 16px 48px rgba(11,23,48,0.14);
   }
 
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); }
-
-  h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--off-white); color: var(--text); -webkit-font-smoothing: antialiased; }
+  h1,h2,h3,h4,h5,h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+  a { text-decoration: none; }
+  img { max-width: 100%; }
 
   /* ── HERO ── */
-  .hero-section {
-    background: linear-gradient(135deg, #0b1730 0%, #1a3a6e 60%, #0e2a5a 100%);
-    padding: 80px 0 70px;
+  .hero {
     position: relative;
+    background: var(--navy);
     overflow: hidden;
-  }
-  .hero-section::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 70% 50%, rgba(37,99,235,0.25) 0%, transparent 65%);
-    pointer-events: none;
-  }
-  .hero-section .hero-title {
-    font-size: clamp(1.9rem, 4vw, 2.9rem);
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.2;
-    letter-spacing: -0.4px;
-  }
-  .hero-section .hero-sub {
-    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-    font-weight: 600;
-    color: var(--accent);
-    margin-bottom: 16px;
-  }
-  .hero-section .hero-desc {
-    font-size: 1.05rem;
-    color: rgba(255,255,255,0.72);
-    max-width: 520px;
-    line-height: 1.7;
-  }
-  .hero-section .hero-cta {
-    display: inline-flex;
+    /* Exactly navbar height so no gap */
+    padding: calc(var(--nav-h, 66px) + 56px) 0 72px;
+    min-height: 100vh;
+    display: flex;
     align-items: center;
-    gap: 8px;
-    background: var(--blue);
-    color: #fff;
-    padding: 13px 32px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1rem;
-    text-decoration: none;
-    margin-top: 28px;
-    transition: background 0.2s, transform 0.2s;
-    box-shadow: 0 4px 20px rgba(37,99,235,0.4);
+    margin-top: 0 !important;
   }
-  .hero-section .hero-cta:hover { background: var(--blue-light); transform: translateY(-2px); text-decoration: none; color: #fff; }
-  .hero-gif { max-width: 420px; width: 100%; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.35); }
 
-  /* ── SECTION LABELS ── */
-  .section-tag {
-    display: inline-flex;
-    align-items: center;
-    background: rgba(37,99,235,0.08);
-    color: var(--blue);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 1.8px;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    border-radius: 30px;
-    margin-bottom: 10px;
-    border: 1px solid rgba(37,99,235,0.15);
-    font-family: 'DM Sans', sans-serif;
+  /* Layered mesh gradients */
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 70% at 85% 35%, rgba(37,99,235,0.28) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 45% at 15% 85%, rgba(6,194,212,0.16) 0%, transparent 55%),
+      radial-gradient(ellipse 65% 55% at 55% 5%,  rgba(59,127,255,0.12) 0%, transparent 58%);
+  }
+
+  /* Animated dot grid */
+  .hero-grid {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 36px 36px;
+    animation: gridDrift 40s linear infinite;
+  }
+  @keyframes gridDrift { 0%{background-position:0 0;} 100%{background-position:36px 36px;} }
+
+  /* Scanline sweep */
+  .hero-scan {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  }
+  .hero-scan::after {
+    content: '';
+    position: absolute; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(59,127,255,0.4), rgba(6,194,212,0.4), transparent);
+    animation: scanSweep 4s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(59,127,255,0.3);
+  }
+  @keyframes scanSweep {
+    0%   { top: -4px; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* Floating orbs */
+  .hero-orb {
+    position: absolute; border-radius: 50%; pointer-events: none; filter: blur(90px);
+  }
+  .hero-orb-1 { width:500px;height:500px;background:rgba(37,99,235,0.2);top:-120px;right:-80px;
+    animation: orb1 10s ease-in-out infinite; }
+  .hero-orb-2 { width:320px;height:320px;background:rgba(6,194,212,0.14);bottom:-60px;left:5%;
+    animation: orb2 13s ease-in-out infinite; }
+  .hero-orb-3 { width:240px;height:240px;background:rgba(139,92,246,0.08);top:50%;left:40%;
+    animation: orb3 9s ease-in-out infinite; }
+  @keyframes orb1 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-30px,20px) scale(1.1);} }
+  @keyframes orb2 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(20px,-30px) scale(1.08);} }
+  @keyframes orb3 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-20px,25px) scale(1.12);} }
+
+  /* Particles */
+  .hero-particles { position:absolute;inset:0;pointer-events:none;overflow:hidden; }
+  .particle {
+    position:absolute; border-radius:50%;
+    background: rgba(59,127,255,0.5);
+    animation: particleFloat linear infinite;
+  }
+  @keyframes particleFloat {
+    0%   { transform: translateY(100vh) scale(0); opacity:0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(-10vh) scale(1); opacity:0; }
+  }
+
+  .hero-content { position: relative; z-index: 3; }
+
+  /* Eyebrow pill */
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(37,99,235,0.12);
+    border: 1px solid rgba(59,127,255,0.35);
+    color: #93c5fd;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 30px; margin-bottom: 24px;
+    backdrop-filter: blur(10px);
+    animation: eyebrowIn 0.8s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes eyebrowIn { from{opacity:0;transform:translateY(-12px);} to{opacity:1;transform:translateY(0);} }
+
+  .hero-eyebrow .live-dot {
+    width:7px;height:7px;border-radius:50%;background:#22c55e;
+    box-shadow:0 0 8px #22c55e;
+    animation: livePulse 1.5s ease-in-out infinite;
+  }
+  @keyframes livePulse { 0%,100%{box-shadow:0 0 6px #22c55e;} 50%{box-shadow:0 0 16px #22c55e, 0 0 24px rgba(34,197,94,0.4);} }
+
+  /* Title with typewriter-ready spans */
+  .hero-title {
+    font-size: clamp(2.4rem, 5.5vw, 4rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    margin-bottom: 18px;
+    animation: titleIn 0.9s cubic-bezier(.22,1,.36,1) 0.1s both;
+  }
+  @keyframes titleIn { from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
+
+  .hero-title .gradient-word {
+    background: linear-gradient(90deg, #93c5fd 0%, #06c2d4 50%, #a78bfa 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    animation: gradientShift 4s ease-in-out infinite alternate;
+  }
+  @keyframes gradientShift { 0%{background-position:0% 50%;} 100%{background-position:100% 50%;} }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 600; color: var(--cyan); margin-bottom: 14px;
+    letter-spacing: 0.5px;
+    animation: titleIn 0.9s cubic-bezier(.22,1,.36,1) 0.2s both;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem; color: rgba(255,255,255,0.62);
+    line-height: 1.78; max-width: 490px; margin-bottom: 38px;
+    animation: titleIn 0.9s cubic-bezier(.22,1,.36,1) 0.3s both;
+  }
+
+  .hero-actions {
+    display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+    animation: titleIn 0.9s cubic-bezier(.22,1,.36,1) 0.4s both;
+  }
+
+  .btn-hero-primary {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: linear-gradient(135deg, #2563eb, #3b7fff);
+    color: #fff; padding: 15px 32px; border-radius: 50px;
+    font-weight: 700; font-size: 1rem;
+    box-shadow: 0 6px 28px rgba(37,99,235,0.5), 0 0 0 0 rgba(37,99,235,0.4);
+    transition: transform 0.22s, box-shadow 0.22s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    position: relative; overflow: hidden;
+  }
+  .btn-hero-primary::after {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.15) 60%, transparent 80%);
+    transform: translateX(-100%);
+    transition: transform 0.5s;
+  }
+  .btn-hero-primary:hover::after { transform: translateX(100%); }
+  .btn-hero-primary:hover { transform:translateY(-3px); box-shadow:0 14px 40px rgba(37,99,235,0.6); color:#fff; }
+  .btn-hero-primary i { animation: rocketBounce 2s ease-in-out infinite; }
+  @keyframes rocketBounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-3px);} }
+
+  .btn-hero-ghost {
+    display: inline-flex; align-items: center; gap: 9px;
+    color: rgba(255,255,255,0.72); font-size: 0.92rem; font-weight: 500;
+    border: 1px solid rgba(255,255,255,0.18); padding: 14px 24px; border-radius: 50px;
+    transition: all 0.22s; backdrop-filter: blur(6px);
+  }
+  .btn-hero-ghost:hover { color:#fff; border-color:rgba(255,255,255,0.45); background:rgba(255,255,255,0.07); transform:translateY(-2px); }
+  .btn-hero-ghost i { transition: transform 0.3s; }
+  .btn-hero-ghost:hover i { transform: scale(1.3); }
+
+  /* Hero visual */
+  .hero-visual { position: relative; z-index: 3; }
+  .hero-mockup {
+    width:100%; max-width:480px; border-radius:22px;
+    box-shadow: 0 40px 90px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08), 0 0 60px rgba(37,99,235,0.15);
+    display:block; margin:0 auto;
+    animation: heroImgFloat 7s ease-in-out infinite;
+    transition: box-shadow 0.3s;
+  }
+  .hero-mockup:hover { box-shadow: 0 50px 100px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.12), 0 0 80px rgba(37,99,235,0.25); }
+  @keyframes heroImgFloat {
+    0%,100% { transform:translateY(0) rotate(-0.8deg); }
+    50%      { transform:translateY(-16px) rotate(0.8deg); }
+  }
+
+  /* Glow ring behind image */
+  .hero-glow {
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:360px; height:360px; border-radius:50%;
+    background: radial-gradient(ellipse, rgba(37,99,235,0.2) 0%, transparent 70%);
+    pointer-events:none;
+    animation: glowPulse 4s ease-in-out infinite;
+  }
+  @keyframes glowPulse { 0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.8;} 50%{transform:translate(-50%,-50%) scale(1.15);opacity:1;} }
+
+  /* Floating badges */
+  .hero-badge {
+    position:absolute;
+    background: rgba(6,12,30,0.88);
+    border:1px solid rgba(59,127,255,0.28);
+    border-radius:14px; padding:12px 16px;
+    display:flex; align-items:center; gap:11px;
+    backdrop-filter: blur(16px) saturate(160%);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.04);
+    font-family:'Plus Jakarta Sans',sans-serif;
+    white-space: nowrap;
+  }
+  .hero-badge-1 { bottom:28px; left:-28px; animation: badge1Float 6s ease-in-out infinite; }
+  .hero-badge-2 { top:28px; right:-28px; animation: badge2Float 8s ease-in-out infinite; }
+  @keyframes badge1Float { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-6px,-10px);} }
+  @keyframes badge2Float { 0%,100%{transform:translate(0,0);} 50%{transform:translate(6px,10px);} }
+
+  .badge-icon {
+    width:38px;height:38px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+  }
+  .badge-icon.green { background:rgba(34,197,94,0.15);color:#22c55e;box-shadow:0 0 14px rgba(34,197,94,0.2); }
+  .badge-icon.blue  { background:rgba(59,127,255,0.15);color:#3b7fff;box-shadow:0 0 14px rgba(59,127,255,0.2); }
+  .badge-title { font-size:0.82rem;font-weight:700;color:#fff;line-height:1;margin-bottom:3px; }
+  .badge-sub   { font-size:0.7rem;color:rgba(255,255,255,0.48); }
+
+  /* ── STATS ── */
+  .stats-strip {
+    background: linear-gradient(90deg,#080f23,#0f2040,#080f23);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 32px 0;
+  }
+  .stat-item { text-align:center; padding: 0 16px; }
+  .stat-num {
+    font-family:'Plus Jakarta Sans',sans-serif; font-size:2rem; font-weight:900; line-height:1;
+    background: linear-gradient(90deg,#7eb3ff,#06c2d4); -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent; background-clip:text; display:block;
+  }
+  .stat-lbl { font-size:0.72rem;color:rgba(255,255,255,0.42);font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-top:5px;display:block; }
+  .stat-sep { width:1px;background:rgba(255,255,255,0.08);height:36px;margin:auto; }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    background:#fff; padding:14px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .trust-item {
+    display:flex;align-items:center;gap:7px;
+    font-size:0.78rem;font-weight:600;color:#475569;
+    padding:0 20px; border-right:1px solid var(--border);
+  }
+  .trust-item:last-child { border-right:none; }
+  .trust-item i { color:var(--blue);font-size:0.9rem; }
+
+  /* ── SECTION COMMON ── */
+  .section-eyebrow {
+    display:inline-flex;align-items:center;gap:6px;
+    background:rgba(37,99,235,0.07); border:1px solid rgba(37,99,235,0.15);
+    color:var(--blue); font-size:0.68rem; font-weight:800; letter-spacing:2px;
+    text-transform:uppercase; padding:4px 12px; border-radius:30px; margin-bottom:12px;
   }
   .section-title {
-    font-size: clamp(1.35rem, 2.5vw, 1.9rem);
-    font-weight: 700;
-    color: var(--navy);
-    line-height: 1.3;
-    letter-spacing: -0.3px;
+    font-size:clamp(1.4rem,2.6vw,2rem); font-weight:800; color:var(--navy2);
+    line-height:1.25; letter-spacing:-0.4px;
   }
-  .section-desc {
-    font-size: 1rem;
-    color: var(--muted);
-    line-height: 1.7;
-    max-width: 540px;
-  }
+  .section-desc { font-size:1rem;color:var(--muted);line-height:1.72;max-width:560px; }
 
-  /* ── PLATFORM SECTION ── */
-  .platform-section { padding: 80px 0; background: var(--white); }
-  .platform-intro { padding: 0 0 60px; text-align: center; }
+  /* ── PLATFORM ── */
+  .platform { padding:88px 0; background:var(--white); }
+  .feature-row {
+    padding: 56px 0;
+    border-bottom: 1px solid #eef2f7;
+    transition: background 0.25s;
+    border-radius: 12px;
+  }
+  .feature-row:last-child { border-bottom:none; }
+  .feature-row:hover { background: #f8fbff; }
 
-  .feature-row { padding: 48px 0; border-bottom: 1px solid #eef2f7; border-radius: 12px; transition: background 0.25s; }
-  .feature-row:hover { background: #f8faff; }
-  .feature-row:last-child { border-bottom: none; }
-  .feature-img { max-width: 100%; border-radius: var(--radius); box-shadow: var(--card-shadow); }
-  .feature-list-custom { list-style: none; padding: 0; margin: 20px 0 0; }
-  .feature-list-custom li {
-    display: flex; align-items: center;
-    padding: 10px 0;
-    font-size: 0.93rem;
-    color: var(--text);
-    font-weight: 500;
-    border-bottom: 1px solid #f0f4fa;
+  .feature-visual {
+    border-radius:var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    width:100%; display:block;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: linear-gradient(135deg,#dbeafe,#e0f2fe);
+    min-height: 220px; object-fit: cover;
   }
-  .feature-list-custom li:last-child { border-bottom: none; }
-  .feature-list-custom li i, .feature-list-custom li span { margin-right: 10px; }
-  .feature-list-custom li::before {
-    content: '';
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--blue);
-    flex-shrink: 0;
-    margin-right: 14px;
-    opacity: 0.8;
+  .feature-visual:hover { transform: scale(1.025) translateY(-4px); box-shadow:0 24px 60px rgba(11,23,48,0.16); }
+
+  .lottie-wrap { border-radius: var(--radius-lg); overflow:hidden; background:linear-gradient(135deg,#f0f8ff,#e8f4fd); }
+
+  .feature-pills { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+  .feature-pill {
+    display:flex; align-items:center; gap:7px;
+    background: var(--off-white); border:1px solid var(--border);
+    border-radius:30px; padding:7px 14px;
+    font-size:0.82rem; font-weight:600; color:var(--text);
+    transition: border-color 0.2s, background 0.2s;
   }
+  .feature-pill:hover { border-color:rgba(37,99,235,0.35); background:#eff6ff; }
+  .feature-pill::before { content:''; width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0; }
 
   /* ── AUTH SECTION ── */
-  .auth-section { padding: 72px 0; background: var(--bg); }
+  .auth-section { padding:80px 0; background:var(--section-bg); }
   .auth-step {
-    display: flex; align-items: flex-start; gap: 16px;
-    padding: 20px 0;
-    border-bottom: 1px solid #eef2f7;
+    display:flex; align-items:flex-start; gap:16px;
+    background:#fff; border:1px solid var(--border);
+    border-radius:var(--radius); padding:20px;
+    margin-bottom:12px;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
   }
-  .auth-step:last-child { border-bottom: none; }
-  .auth-step-icon {
-    width: 50px; height: 50px;
-    background: rgba(37,99,235,0.1);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
+  .auth-step:hover { transform:translateX(6px); box-shadow:0 8px 28px rgba(37,99,235,0.1); border-color:rgba(37,99,235,0.25); }
+  .auth-step-num {
+    width:40px;height:40px;border-radius:12px;
+    background:linear-gradient(135deg,#2563eb,#3b7fff);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:800;font-size:0.9rem;flex-shrink:0;
+    font-family:'Plus Jakarta Sans',sans-serif;
+    box-shadow:0 4px 14px rgba(37,99,235,0.35);
   }
-  .auth-step-icon img { width: 28px; height: 28px; object-fit: contain; }
-  .auth-step-title { font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
-  .auth-step-desc { font-size: 0.87rem; color: var(--muted); margin: 0; }
-  .auth-screenshot { border-radius: var(--radius); box-shadow: var(--card-shadow); max-width: 100%; }
+  .auth-step-icon-img {
+    width:40px;height:40px;border-radius:12px;
+    background:rgba(37,99,235,0.08);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .auth-step-icon-img img { width:24px;height:24px;object-fit:contain; }
+  .auth-step h6 { font-size:0.93rem;font-weight:700;color:var(--navy2);margin-bottom:4px; }
+  .auth-step p { font-size:0.83rem;color:var(--muted);margin:0;line-height:1.55; }
+  .auth-screenshot {
+    border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); width:100%;
+    border:1px solid var(--border);
+  }
 
   /* ── SUITED FOR ── */
-  .suited-section { padding: 72px 0; background: var(--white); }
+  .suited { padding:80px 0; background:var(--white); }
   .suited-card {
-    background: var(--bg);
-    border-radius: var(--radius);
-    padding: 32px 24px;
-    text-align: center;
-    border: 1px solid #e8eef7;
-    transition: transform 0.2s, box-shadow 0.2s;
-    height: 100%;
+    background:var(--section-bg); border:1px solid var(--border);
+    border-radius:var(--radius-lg); padding:36px 28px;
+    text-align:center; height:100%;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    position:relative; overflow:hidden;
   }
-  .suited-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(37,99,235,0.12); border-color: rgba(37,99,235,0.2); }
-  .suited-card img { width: 72px; height: 72px; object-fit: contain; margin-bottom: 16px; }
-  .suited-card h5 { font-size: 1.05rem; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
-  .suited-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; margin: 0; }
+  .suited-card::before {
+    content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+    background:radial-gradient(ellipse at center, rgba(37,99,235,0.05) 0%, transparent 65%);
+    opacity:0; transition:opacity 0.3s;
+  }
+  .suited-card:hover { transform:translateY(-8px); box-shadow:0 20px 48px rgba(37,99,235,0.14); border-color:rgba(37,99,235,0.25); }
+  .suited-card:hover::before { opacity:1; }
+  .suited-card-icon {
+    width:76px;height:76px;border-radius:20px;
+    background:linear-gradient(135deg,rgba(37,99,235,0.1),rgba(6,194,212,0.1));
+    display:flex;align-items:center;justify-content:center;margin:0 auto 20px;
+    border:1px solid rgba(37,99,235,0.15);
+  }
+  .suited-card-icon img { width:44px;height:44px;object-fit:contain; }
+  .suited-card h5 { font-size:1.05rem;font-weight:800;color:var(--navy2);margin-bottom:10px; }
+  .suited-card p { font-size:0.87rem;color:var(--muted);line-height:1.65;margin:0; }
 
-  /* ── KPI GRID ── */
-  .kpi-section { padding: 72px 0; background: var(--bg); }
+  /* ── KPI ── */
+  .kpi { padding:80px 0; background:var(--section-bg); }
   .kpi-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 28px 20px;
-    text-align: center;
-    border: 1px solid #e8eef7;
-    transition: transform 0.2s, box-shadow 0.2s;
-    height: 100%;
-    margin-bottom: 20px;
+    background:var(--white); border:1px solid var(--border);
+    border-radius:var(--radius); padding:28px 20px;
+    text-align:center; height:100%; margin-bottom:20px;
+    transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
   }
-  .kpi-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(37,99,235,0.12); border-color: rgba(37,99,235,0.2); }
-  .kpi-card img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 14px; }
-  .kpi-card h6 { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
-  .kpi-card p { font-size: 0.83rem; color: var(--muted); margin: 0; line-height: 1.5; }
+  .kpi-card:hover { transform:translateY(-6px); box-shadow:0 16px 36px rgba(37,99,235,0.12); border-color:rgba(37,99,235,0.22); }
+  .kpi-card-icon {
+    width:60px;height:60px;border-radius:16px;
+    background:linear-gradient(135deg,rgba(37,99,235,0.08),rgba(6,194,212,0.08));
+    display:flex;align-items:center;justify-content:center;margin:0 auto 14px;
+  }
+  .kpi-card-icon img { width:36px;height:36px;object-fit:contain; }
+  .kpi-card h6 { font-size:0.92rem;font-weight:700;color:var(--navy2);margin-bottom:6px; }
+  .kpi-card p { font-size:0.8rem;color:var(--muted);margin:0;line-height:1.55; }
 
   /* ── PARTNERS ── */
-  .partners-section { padding: 60px 0; background: var(--white); }
+  .partners { padding:64px 0; background:var(--white); }
   .partner-card {
-    background: var(--bg);
-    border-radius: var(--radius);
-    padding: 32px 24px;
-    text-align: center;
-    border: 1px solid #e8eef7;
-    height: 100%;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background:var(--section-bg); border:1px solid var(--border);
+    border-radius:var(--radius-lg); padding:36px 24px;
+    text-align:center; height:100%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    transition: transform 0.22s, box-shadow 0.22s;
   }
-  .partner-card img { max-height: 50px; max-width: 160px; object-fit: contain; margin-bottom: 12px; }
-  .partner-card h6 { font-size: 0.9rem; font-weight: 600; color: var(--muted); margin: 0; }
+  .partner-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+  .partner-card img { max-height:48px;max-width:160px;object-fit:contain;margin-bottom:12px;filter:grayscale(40%);transition:filter 0.2s; }
+  .partner-card:hover img { filter:grayscale(0%); }
+  .partner-card span { font-size:0.82rem;font-weight:600;color:var(--muted); }
 
   /* ── CONTACT ── */
-  .contact-section { padding: 72px 0; background: var(--bg); }
+  .contact { padding:80px 0; background:var(--section-bg); }
   .contact-map {
-    width: 100%; height: 340px; border-radius: var(--radius);
-    overflow: hidden; border: none;
-    box-shadow: var(--card-shadow);
+    width:100%;height:340px;border-radius:var(--radius-lg);
+    overflow:hidden;border:1px solid var(--border);
+    box-shadow:var(--shadow);
   }
   .contact-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    border: 1px solid #e8eef7;
-    display: flex; align-items: flex-start; gap: 16px;
-    height: 100%;
+    background:var(--white); border:1px solid var(--border);
+    border-radius:var(--radius); padding:28px;
+    display:flex;align-items:flex-start;gap:16px;height:100%;
+    transition: transform 0.22s, box-shadow 0.22s;
   }
+  .contact-card:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(37,99,235,0.1); }
   .contact-icon {
-    width: 48px; height: 48px; border-radius: 12px;
-    background: rgba(37,99,235,0.08);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    font-size: 1.1rem; color: var(--blue);
+    width:48px;height:48px;border-radius:14px;
+    background:linear-gradient(135deg,rgba(37,99,235,0.1),rgba(6,194,212,0.1));
+    display:flex;align-items:center;justify-content:center;
+    color:var(--blue);font-size:1.05rem;flex-shrink:0;
+    border:1px solid rgba(37,99,235,0.12);
   }
-  .contact-card h6 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 5px; }
-  .contact-card a { font-size: 0.95rem; font-weight: 500; color: var(--navy); text-decoration: none; line-height: 1.5; display: block; }
-  .contact-card span { font-size: 0.95rem; font-weight: 500; color: var(--navy); line-height: 1.5; display: block; }
-  .contact-card a:hover { color: var(--blue); }
-  .contact-card .sub { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+  .contact-card .c-label { font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:5px; }
+  .contact-card a,.contact-card span { font-size:0.93rem;font-weight:500;color:var(--navy2);line-height:1.55;display:block; }
+  .contact-card a:hover { color:var(--blue); }
+  .contact-card .c-sub { font-size:0.77rem;color:var(--muted);margin-top:2px; }
 
-  /* ── FADE IN ANIMATION ── */
-  .fade-up {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+  /* ── FOOTER CTA BAND ── */
+  .cta-band {
+    background:linear-gradient(135deg,#0b1730 0%,#1a3a6e 60%,#0e2a5a 100%);
+    padding:72px 0;
+    position:relative; overflow:hidden;
+    text-align:center;
   }
-  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .cta-band::before {
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(ellipse at 50% 50%, rgba(37,99,235,0.25) 0%, transparent 65%);
+    pointer-events:none;
+  }
+  .cta-band h2 { font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;color:#fff;letter-spacing:-0.5px;margin-bottom:14px; }
+  .cta-band p { font-size:1.05rem;color:rgba(255,255,255,0.62);max-width:480px;margin:0 auto 32px;line-height:1.7; }
 
+  /* ── SECTION DIVIDER ── */
+  .s-divider { height:1px;background:linear-gradient(90deg,transparent,rgba(37,99,235,0.18),transparent);border:none;margin:0; }
 
-  /* ── STATS COUNTER STRIP ── */
-  .stats-strip {
-    background: linear-gradient(90deg, #0b1730 0%, #1a3a6e 50%, #0b1730 100%);
-    padding: 36px 0;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-  .stat-item { text-align: center; padding: 0 20px; }
-  .stat-number {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: #fff;
-    line-height: 1;
-    display: block;
-    background: linear-gradient(90deg, #7eb3ff, #06b6d4);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .stat-label {
-    font-size: 0.82rem;
-    color: rgba(255,255,255,0.55);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    margin-top: 4px;
-    display: block;
-    text-transform: uppercase;
-  }
-  .stat-divider {
-    width: 1px; background: rgba(255,255,255,0.1);
-    height: 40px; margin: auto;
-  }
-
-  /* ── TRUST BADGE BAR ── */
-  .trust-bar {
-    background: #fff;
-    padding: 18px 0;
-    border-bottom: 1px solid #eef2f7;
-    border-top: 1px solid #eef2f7;
-  }
-  .trust-bar .trust-item {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 0.83rem; font-weight: 600; color: #475569;
-    padding: 0 20px;
-    border-right: 1px solid #e2e8f0;
-  }
-  .trust-bar .trust-item:last-child { border-right: none; }
-  .trust-bar .trust-item i { color: #2563eb; font-size: 1rem; }
+  /* ── FADE UP ── */
+  .fade-up { opacity:0; transform:translateY(32px); transition:opacity 0.65s ease, transform 0.65s ease; }
+  .fade-up.visible { opacity:1; transform:translateY(0); }
 
   /* ── FLOATING CTA ── */
-  .floating-cta {
-    position: fixed; bottom: 28px; right: 28px; z-index: 999;
-    background: linear-gradient(135deg, #2563eb, #06b6d4);
-    color: #fff;
-    padding: 13px 22px;
-    border-radius: 50px;
-    font-size: 0.88rem;
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: 0 6px 24px rgba(37,99,235,0.42);
-    display: flex; align-items: center; gap: 8px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    animation: pulse-cta 2.5s infinite;
+  .float-cta {
+    position:fixed;bottom:28px;right:28px;z-index:999;
+    background:linear-gradient(135deg,#2563eb,#06c2d4);
+    color:#fff; padding:13px 22px; border-radius:50px;
+    font-size:0.88rem; font-weight:700;
+    display:none; align-items:center; gap:8px;
+    box-shadow:0 8px 28px rgba(37,99,235,0.45);
+    transition:transform 0.2s, box-shadow 0.2s;
+    font-family:'Plus Jakarta Sans',sans-serif;
+    animation: pulse-glow 2.8s ease-in-out infinite;
   }
-  .floating-cta:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(37,99,235,0.5); color: #fff; text-decoration: none; }
-  @keyframes pulse-cta {
-    0%, 100% { box-shadow: 0 6px 24px rgba(37,99,235,0.42); }
-    50% { box-shadow: 0 6px 32px rgba(6,182,212,0.55); }
+  .float-cta:hover { transform:translateY(-3px); box-shadow:0 14px 36px rgba(37,99,235,0.55); color:#fff; }
+  @keyframes pulse-glow {
+    0%,100% { box-shadow:0 8px 28px rgba(37,99,235,0.45); }
+    50% { box-shadow:0 8px 36px rgba(6,194,212,0.6); }
   }
-
-  /* ── FEATURE PILL BADGE on hover ── */
-  .feature-row .section-tag { transition: background 0.2s, transform 0.2s; }
-  .feature-row:hover .section-tag { background: rgba(37,99,235,0.14); transform: scale(1.03); }
-
-  /* ── SECTION DIVIDER with gradient ── */
-  .section-divider {
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(37,99,235,0.2), transparent);
-    border: none;
-    margin: 0;
-  }
-
-  /* ── GLASS CARD for auth steps ── */
-  .auth-step {
-    background: #fff;
-    border-radius: 12px;
-    padding: 18px 20px !important;
-    border: 1px solid #eef2f7;
-    transition: box-shadow 0.2s, border-color 0.2s;
-    margin-bottom: 10px;
-  }
-  .auth-step:hover { box-shadow: 0 4px 20px rgba(37,99,235,0.1); border-color: rgba(37,99,235,0.2); }
-  .auth-step { border-bottom: none !important; }
-
-  /* ── COUNTER ANIMATION ── */
-  .count-up { transition: all 0.3s; }
-
-  /* ── FEATURE img shimmer on load ── */
-  .feature-img { transition: transform 0.3s, box-shadow 0.3s; }
-  .feature-img:hover { transform: scale(1.02); box-shadow: 0 12px 40px rgba(11,23,48,0.14); }
-
-  /* ── HERO second CTA button ── */
-  .hero-cta-secondary {
-    display: inline-flex; align-items: center; gap: 8px;
-    color: rgba(255,255,255,0.75);
-    font-size: 0.9rem; font-weight: 500;
-    margin-top: 28px; margin-left: 16px;
-    text-decoration: none;
-    transition: color 0.2s;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    padding-bottom: 2px;
-  }
-  .hero-cta-secondary:hover { color: #fff; text-decoration: none; border-color: rgba(255,255,255,0.5); }
 
   /* ── RESPONSIVE ── */
-  @media (max-width: 767px) {
-    .hero-gif { margin-top: 32px; }
-    .feature-row .order-md-2 { margin-bottom: 24px; }
+  @media(max-width:767px){
+    .hero-badge { display:none; }
+    .hero-mockup { margin-top:36px; }
+    .feature-row { padding:40px 0; }
+    .trust-bar { display:none; }
+  }
+  @media(max-width:575px){
+    .hero { padding:60px 0 50px; min-height:auto; }
+    .stat-sep { display:none; }
   }
 </style>
 
 <!-- ══════════ HERO ══════════ -->
-<section class="hero-section">
-  <div class="container">
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-scan"></div>
+  <div class="hero-particles" id="heroParticles"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+
+  <div class="container hero-content">
     <div class="row align-items-center">
-      <div class="col-md-6 fade-up">
-        <p class="section-tag mb-3">Online Exam Proctoring</p>
-        <h1 class="hero-title">Exam Security.<br>Done Right.</h1>
-        <p class="hero-sub mt-3">Deter. Detect. Prevent.</p>
-        <p class="hero-desc">Online proctoring to advance your learning and testing program. Validate knowledge. Reduce costs. Expand access.</p>
-        <a href="/register" class="hero-cta">
-          <i class="fas fa-rocket"></i> Get Started Free
-        </a>
-        <a href="#platform" class="hero-cta-secondary">
-          <i class="fas fa-play-circle"></i> See How It Works
-        </a>
+
+      <!-- Left copy -->
+      <div class="col-lg-6">
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span> AI-Powered Exam Proctoring
+        </div>
+        <h1 class="hero-title">
+          Exam Security.<br>
+          <span class="gradient-word">Done Right.</span>
+        </h1>
+        <p class="hero-sub">Deter. Detect. Prevent.</p>
+        <p class="hero-desc">Online proctoring to advance your learning and testing program. Validate knowledge, reduce costs, and expand access — powered by real-time AI.</p>
+        <div class="hero-actions">
+          <a href="/register" class="btn-hero-primary">
+            <i class="fas fa-rocket"></i> Get Started Free
+          </a>
+          <a href="#platform" class="btn-hero-ghost">
+            <i class="fas fa-play-circle"></i> See How It Works
+          </a>
+        </div>
       </div>
-      <div class="col-md-6 text-center fade-up" style="transition-delay:0.15s;">
-        <img src="{{ url_for('static', filename='myproctoraiindex.gif') }}" class="hero-gif" alt="MyProctor.ai Demo">
+
+      <!-- Right visual -->
+      <div class="col-lg-6 hero-visual mt-5 mt-lg-0" style="position:relative;">
+        <div class="hero-glow"></div>
+        <img
+          src="{{ url_for('static', filename='myproctoraiindex.gif') }}"
+          class="hero-mockup"
+          alt="MyProctor.ai Live Demo"
+          onerror="this.style.minHeight='320px';this.style.background='linear-gradient(135deg,rgba(37,99,235,0.12),rgba(6,194,212,0.08))';this.style.borderRadius='22px';this.removeAttribute('onerror');"
+        >
+        <div class="hero-badge hero-badge-1">
+          <div class="badge-icon green"><i class="fas fa-shield-alt"></i></div>
+          <div>
+            <div class="badge-title">AI Verified</div>
+            <div class="badge-sub">Face matched ✓</div>
+          </div>
+        </div>
+        <div class="hero-badge hero-badge-2">
+          <div class="badge-icon blue"><i class="fas fa-eye"></i></div>
+          <div>
+            <div class="badge-title">Live Monitor</div>
+            <div class="badge-sub">0 violations</div>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
 
+<script>
+  // Generate particles
+  (function(){
+    var wrap = document.getElementById('heroParticles');
+    if(!wrap) return;
+    for(var i=0;i<22;i++){
+      var p = document.createElement('div');
+      p.className = 'particle';
+      var size = Math.random()*3+1.5;
+      p.style.cssText = [
+        'width:'+size+'px', 'height:'+size+'px',
+        'left:'+Math.random()*100+'%',
+        'animation-duration:'+(Math.random()*14+8)+'s',
+        'animation-delay:'+(Math.random()*12)+'s',
+        'opacity:'+(Math.random()*0.5+0.2)
+      ].join(';');
+      wrap.appendChild(p);
+    }
+  })();
+</script>
 
-
-<!-- ══════════ STATS STRIP ══════════ -->
+<!-- ══════════ STATS ══════════ -->
 <section class="stats-strip">
   <div class="container">
-    <div class="row text-center justify-content-center">
+    <div class="row justify-content-center text-center align-items-center">
       <div class="col-6 col-md-3 mb-3 mb-md-0">
-        <span class="stat-number" data-target="50000">50,000+</span>
-        <span class="stat-label">Exams Proctored</span>
+        <span class="stat-num">50,000+</span>
+        <span class="stat-lbl">Exams Proctored</span>
       </div>
+      <div class="col-auto d-none d-md-block"><div class="stat-sep"></div></div>
       <div class="col-6 col-md-3 mb-3 mb-md-0">
-        <span class="stat-number" data-target="200">200+</span>
-        <span class="stat-label">Institutions</span>
+        <span class="stat-num">200+</span>
+        <span class="stat-lbl">Institutions</span>
       </div>
+      <div class="col-auto d-none d-md-block"><div class="stat-sep"></div></div>
       <div class="col-6 col-md-3 mb-3 mb-md-0">
-        <span class="stat-number" data-target="99">99.9%</span>
-        <span class="stat-label">Uptime SLA</span>
+        <span class="stat-num">99.9%</span>
+        <span class="stat-lbl">Uptime SLA</span>
       </div>
+      <div class="col-auto d-none d-md-block"><div class="stat-sep"></div></div>
       <div class="col-6 col-md-3 mb-3 mb-md-0">
-        <span class="stat-number" data-target="24">24/7</span>
-        <span class="stat-label">Live Support</span>
+        <span class="stat-num">24/7</span>
+        <span class="stat-lbl">Live Support</span>
       </div>
     </div>
   </div>
@@ -507,40 +635,43 @@
     </div>
   </div>
 </div>
-<hr class="section-divider">
+<hr class="s-divider">
 
-<!-- ══════════ PLATFORM FEATURES ══════════ -->
-<section class="platform-section" id="platform">
+<!-- ══════════ PLATFORM ══════════ -->
+<section class="platform" id="platform">
   <div class="container">
 
-    <div class="platform-intro fade-up">
-      <span class="section-tag">Platform</span>
+    <div class="text-center mb-5 fade-up">
+      <span class="section-eyebrow">Platform</span>
       <h2 class="section-title mt-2">The MyProctor.ai Learning Integrity Platform</h2>
+      <p class="section-desc mt-3 mx-auto">Everything you need to run secure, fair, and accessible online exams at scale.</p>
     </div>
 
     <!-- Mission -->
     <div class="row align-items-center feature-row fade-up">
       <div class="col-md-5 text-center mb-4 mb-md-0">
-        <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_omszt4va.json"
-          background="transparent" speed="1" style="width:280px;height:280px;margin:auto;" loop autoplay>
-        </lottie-player>
+        <div class="lottie-wrap p-4">
+          <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_omszt4va.json"
+            background="transparent" speed="1" style="width:260px;height:260px;margin:auto;" loop autoplay></lottie-player>
+        </div>
       </div>
       <div class="col-md-6 offset-md-1">
-        <span class="section-tag">Mission</span>
+        <span class="section-eyebrow">Mission</span>
         <h2 class="section-title mt-2">Our Mission</h2>
-        <p class="section-desc mt-3">Making green exam assessment reach the last mile across the globe — accessible, secure, and fair for every student.</p>
+        <p class="section-desc mt-3">Making green exam assessment reach the last mile across the globe — accessible, secure, and fair for every student, everywhere.</p>
       </div>
     </div>
 
     <!-- Vision -->
     <div class="row align-items-center feature-row fade-up">
       <div class="col-md-5 order-md-2 text-center mb-4 mb-md-0">
-        <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_fdLGjD.json"
-          background="transparent" speed="1" style="width:320px;height:260px;margin:auto;" loop autoplay>
-        </lottie-player>
+        <div class="lottie-wrap p-4">
+          <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_fdLGjD.json"
+            background="transparent" speed="1" style="width:300px;height:240px;margin:auto;" loop autoplay></lottie-player>
+        </div>
       </div>
       <div class="col-md-6 order-md-1">
-        <span class="section-tag">Vision</span>
+        <span class="section-eyebrow">Vision</span>
         <h2 class="section-title mt-2">Our Vision</h2>
         <p class="section-desc mt-3">We believe "Future of the world starts in a Classroom." Our vision is to invent and develop secure, future-ready Ed-tech solutions with simple functionality.</p>
       </div>
@@ -549,129 +680,82 @@
     <!-- Exam Proctoring -->
     <div class="row align-items-center feature-row fade-up">
       <div class="col-md-5 text-center mb-4 mb-md-0">
-        <img src="{{ url_for('static', filename='admin-dashboard.png') }}" class="feature-img" alt="Exam Proctoring" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div style="display:none;width:100%;height:220px;background:linear-gradient(135deg,#e8f0fe,#dbeafe);border-radius:16px;align-items:center;justify-content:center;flex-direction:column;color:#2563eb;font-family:'Plus Jakarta Sans',sans-serif;">
-          <i class="fas fa-desktop" style="font-size:2.5rem;margin-bottom:10px;opacity:0.6;"></i>
-          <span style="font-size:0.9rem;opacity:0.7;">Admin Dashboard Preview</span>
-        </div>
+        <img src="{{ url_for('static', filename='admin-dashboard.png') }}" class="feature-visual" alt="Exam Proctoring"
+          onerror="this.style.minHeight='220px';this.alt='';this.removeAttribute('onerror');">
       </div>
       <div class="col-md-6 offset-md-1">
-        <span class="section-tag">Core Feature</span>
+        <span class="section-eyebrow">Core Feature</span>
         <h2 class="section-title mt-2">Exam Proctoring</h2>
         <p class="section-desc mt-3">An all-inclusive remote monitoring solution, including image verification and computer restrictions.</p>
-        <ul class="feature-list-custom">
-          <li>Automated Proctoring</li>
-          <li>Live Proctoring</li>
-          <li>Professional Review</li>
-        </ul>
+        <div class="feature-pills mt-3">
+          <span class="feature-pill">Automated Proctoring</span>
+          <span class="feature-pill">Live Proctoring</span>
+          <span class="feature-pill">Professional Review</span>
+        </div>
       </div>
     </div>
 
     <!-- Content Protection -->
     <div class="row align-items-center feature-row fade-up">
       <div class="col-md-5 order-md-2 text-center mb-4 mb-md-0">
-        <img src="/static/feature-platform-2.png" class="feature-img" alt="Content Protection">
+        <img src="/static/feature-platform-2.png" class="feature-visual" alt="Content Protection"
+          onerror="this.style.minHeight='220px';this.removeAttribute('onerror');">
       </div>
       <div class="col-md-6 order-md-1">
-        <span class="section-tag">Security</span>
+        <span class="section-eyebrow">Security</span>
         <h2 class="section-title mt-2">Content Protection</h2>
         <p class="section-desc mt-3">MyProctor.ai ensures exam integrity by preventing internet navigation, use of mobile devices, screen captures, printing or sharing.</p>
-        <ul class="feature-list-custom">
-          <li>Distribution Prevention</li>
-          <li>Copy / Print / Download Restrictions</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Distribution Prevention -->
-    <div class="row align-items-center feature-row fade-up">
-      <div class="col-md-5 text-center mb-4 mb-md-0">
-        <img src="/static/feature-content-protection-2.png" class="feature-img" alt="Distribution Prevention">
-      </div>
-      <div class="col-md-6 offset-md-1">
-        <span class="section-tag">Protection</span>
-        <h2 class="section-title mt-2">Distribution Prevention</h2>
-        <p class="section-desc mt-3">MyProctor.ai prevents test distribution through a host of adjustable settings — restricting copy-paste, print, download and screen captures while automatically clearing caches during the assessment.</p>
+        <div class="feature-pills mt-3">
+          <span class="feature-pill">Distribution Prevention</span>
+          <span class="feature-pill">Copy / Print Restrictions</span>
+        </div>
       </div>
     </div>
 
     <!-- Image Verification -->
     <div class="row align-items-center feature-row fade-up">
-      <div class="col-md-5 order-md-2 text-center mb-4 mb-md-0">
-        <img src="/static/id-verification.png" class="feature-img" alt="Image Verification">
+      <div class="col-md-5 text-center mb-4 mb-md-0">
+        <img src="/static/id-verification.png" class="feature-visual" alt="Image Verification"
+          onerror="this.style.minHeight='220px';this.removeAttribute('onerror');">
       </div>
-      <div class="col-md-6 order-md-1">
-        <span class="section-tag">Identity</span>
+      <div class="col-md-6 offset-md-1">
+        <span class="section-eyebrow">Identity</span>
         <h2 class="section-title mt-2">Image Verification</h2>
-        <p class="section-desc mt-3">Identification is captured, analyzed and verified — only then is the candidate allowed to proceed.</p>
-        <ul class="feature-list-custom">
-          <li>Advanced Facial Detection Technology</li>
-          <li>Automated Verification</li>
-          <li>Live Image Verification</li>
-        </ul>
+        <p class="section-desc mt-3">Identification is captured, analyzed and verified — only then is the candidate allowed to proceed to the exam.</p>
+        <div class="feature-pills mt-3">
+          <span class="feature-pill">Facial Detection AI</span>
+          <span class="feature-pill">Automated Verification</span>
+          <span class="feature-pill">Live Image Check</span>
+        </div>
       </div>
     </div>
 
     <!-- Data Analytics -->
     <div class="row align-items-center feature-row fade-up">
-      <div class="col-md-5 text-center mb-4 mb-md-0">
-        <img src="/static/Aggregate-Exam-Data.png" class="feature-img" alt="Data Analytics">
+      <div class="col-md-5 order-md-2 text-center mb-4 mb-md-0">
+        <img src="/static/Aggregate-Exam-Data.png" class="feature-visual" alt="Data Analytics"
+          onerror="this.style.minHeight='220px';this.removeAttribute('onerror');">
       </div>
-      <div class="col-md-6 offset-md-1">
-        <span class="section-tag">Analytics</span>
+      <div class="col-md-6 order-md-1">
+        <span class="section-eyebrow">Analytics</span>
         <h2 class="section-title mt-2">Data Analytics</h2>
-        <p class="section-desc mt-3">Instant, objective data is immediately available after every assessment, with parameters set by instructors or administrators.</p>
-        <ul class="feature-list-custom">
-          <li>Administrative Dashboard</li>
-          <li>Student Monitoring</li>
-          <li>Aggregate Exam Data</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Admin Dashboard -->
-    <div class="row align-items-center feature-row fade-up">
-      <div class="col-md-5 order-md-2 text-center mb-4 mb-md-0">
-        <img src="/static/admin-dashboard-1.png" class="feature-img" alt="Admin Dashboard">
-      </div>
-      <div class="col-md-6 order-md-1">
-        <span class="section-tag">Management</span>
-        <h2 class="section-title mt-2">Admin Dashboard</h2>
-        <p class="section-desc mt-3">Create global settings and usage reports by department, school or institution. Filter activity by course, test-taker, or exam. Manage exam parameters, computer requirements, faculty controls, and Gradebook settings.</p>
-      </div>
-    </div>
-
-    <!-- Professional Review -->
-    <div class="row align-items-center feature-row fade-up">
-      <div class="col-md-5 text-center mb-4 mb-md-0">
-        <img src="/static/professional-review.png" class="feature-img" alt="Professional Review">
-      </div>
-      <div class="col-md-6 offset-md-1">
-        <span class="section-tag">Review</span>
-        <h2 class="section-title mt-2">Professional Review</h2>
-        <p class="section-desc mt-3">Our highly-trained experts analyze exam proctoring for academic dishonesty. Detailed reporting delivered same day, next day or within 3 days based on your needs.</p>
-      </div>
-    </div>
-
-    <!-- Actionable Information -->
-    <div class="row align-items-center feature-row fade-up">
-      <div class="col-md-5 order-md-2 text-center mb-4 mb-md-0">
-        <img src="/static/actionable-information.png" class="feature-img" alt="Actionable Information">
-      </div>
-      <div class="col-md-6 order-md-1">
-        <span class="section-tag">Insights</span>
-        <h2 class="section-title mt-2">Actionable Information</h2>
-        <p class="section-desc mt-3">Data analytics become instantly available after every assessment and accumulate over time — helping you identify suspicious behaviors and boost retention by flagging test-takers who may need support.</p>
+        <p class="section-desc mt-3">Instant, objective data is immediately available after every assessment — with parameters set by instructors or administrators.</p>
+        <div class="feature-pills mt-3">
+          <span class="feature-pill">Admin Dashboard</span>
+          <span class="feature-pill">Student Monitoring</span>
+          <span class="feature-pill">Aggregate Exam Data</span>
+        </div>
       </div>
     </div>
 
     <!-- Live Proctoring -->
     <div class="row align-items-center feature-row fade-up">
       <div class="col-md-5 text-center mb-4 mb-md-0">
-        <img src="/static/live-proctoring.png" class="feature-img" alt="Live Proctoring">
+        <img src="/static/live-proctoring.png" class="feature-visual" alt="Live Proctoring"
+          onerror="this.style.minHeight='220px';this.removeAttribute('onerror');">
       </div>
       <div class="col-md-6 offset-md-1">
-        <span class="section-tag">Live</span>
+        <span class="section-eyebrow">Live</span>
         <h2 class="section-title mt-2">Live Proctoring</h2>
         <p class="section-desc mt-3">Allows immediate intervention during an exam and provides full live reporting on demand — ensuring maximum exam integrity in real-time.</p>
       </div>
@@ -679,94 +763,90 @@
 
   </div>
 </section>
-
+<hr class="s-divider">
 
 <!-- ══════════ 3-POINT AUTH ══════════ -->
 <section class="auth-section">
   <div class="container">
     <div class="text-center mb-5 fade-up">
-      <span class="section-tag">Authentication</span>
-      <h2 class="section-title mt-2">Verify Candidates With Our<br>3-Point Authentication System</h2>
+      <span class="section-eyebrow">Authentication</span>
+      <h2 class="section-title mt-2">3-Point Candidate Verification</h2>
+      <p class="section-desc mt-3 mx-auto">Multi-layer identity checks ensure only the right person sits the exam.</p>
     </div>
     <div class="row align-items-center fade-up">
       <div class="col-md-5 mb-4 mb-md-0">
         <div class="auth-step">
-          <div class="auth-step-icon">
-            <img src="/static/examcheck.png" alt="Step 1">
-          </div>
+          <div class="auth-step-num">01</div>
           <div>
-            <p class="auth-step-title">Step 1 — Registration Details</p>
-            <p class="auth-step-desc">Candidate enters registration details with customizable fields.</p>
+            <h6>Registration Details</h6>
+            <p>Candidate enters registration details with customizable fields defined by the institution.</p>
           </div>
         </div>
         <div class="auth-step">
-          <div class="auth-step-icon">
-            <img src="/static/candidateclickspic.png" alt="Step 2">
-          </div>
+          <div class="auth-step-num">02</div>
           <div>
-            <p class="auth-step-title">Step 2 — Candidate Photo</p>
-            <p class="auth-step-desc">Candidate clicks a real-time picture for facial comparison.</p>
+            <h6>Candidate Photo Capture</h6>
+            <p>Candidate clicks a real-time picture for facial comparison against registered ID.</p>
           </div>
         </div>
         <div class="auth-step">
-          <div class="auth-step-icon">
-            <img src="/static/idverify.png" alt="Step 3">
-          </div>
+          <div class="auth-step-num">03</div>
           <div>
-            <p class="auth-step-title">Step 3 — Face Verification</p>
-            <p class="auth-step-desc">Only after face is verified is the candidate allowed to attempt the exam.</p>
+            <h6>AI Face Verification</h6>
+            <p>Only after face is AI-verified is the candidate allowed to attempt the exam.</p>
           </div>
         </div>
       </div>
       <div class="col-md-6 offset-md-1 text-center">
-        <img src="/static/mettlverify.jpg" class="auth-screenshot" alt="Candidate Authentication" style="max-width:100%;">
+        <img src="/static/mettlverify.jpg" class="auth-screenshot" alt="Candidate Authentication"
+          onerror="this.style.minHeight='300px';this.style.background='linear-gradient(135deg,#dbeafe,#e0f2fe)';this.style.borderRadius='16px';this.removeAttribute('onerror');">
       </div>
     </div>
   </div>
 </section>
+<hr class="s-divider">
 
-
-<!-- ══════════ BEST SUITED FOR ══════════ -->
-<section class="suited-section">
+<!-- ══════════ SUITED FOR ══════════ -->
+<section class="suited">
   <div class="container">
     <div class="text-center mb-5 fade-up">
-      <span class="section-tag">Use Cases</span>
-      <h2 class="section-title mt-2">MyProctor.ai is Best Suited For</h2>
+      <span class="section-eyebrow">Use Cases</span>
+      <h2 class="section-title mt-2">Best Suited For</h2>
     </div>
     <div class="row fade-up">
       <div class="col-md-4 mb-4">
         <div class="suited-card">
-          <img src="/static/001-old-school.png" alt="Universities">
+          <div class="suited-card-icon"><img src="/static/001-old-school.png" alt="Universities"></div>
           <h5>Universities</h5>
-          <p>MyProctor.ai offers a superior proctored exam experience while promoting excellence and integrity for education programs.</p>
+          <p>Superior proctored exam experience promoting excellence and integrity for all education programs worldwide.</p>
         </div>
       </div>
       <div class="col-md-4 mb-4">
         <div class="suited-card">
-          <img src="/static/i14.png" alt="Assessment Providers">
+          <div class="suited-card-icon"><img src="/static/i14.png" alt="Assessment Providers"></div>
           <h5>Assessment Providers</h5>
           <p>Assessments available anywhere, anytime. Cognitive proctoring technology protects the test and disables false positives.</p>
         </div>
       </div>
       <div class="col-md-4 mb-4">
         <div class="suited-card">
-          <img src="/static/i15.png" alt="E-Learning">
+          <div class="suited-card-icon"><img src="/static/i15.png" alt="E-Learning"></div>
           <h5>E-Learning Programs</h5>
-          <p>Reduce expenditure on test centers. Integrate MyProctor.ai to your existing test engine or use our secure test engine.</p>
+          <p>Reduce expenditure on test centers. Integrate MyProctor.ai into your existing test engine seamlessly.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
-
+<hr class="s-divider">
 
 <!-- ══════════ KPI GRID ══════════ -->
-<section class="kpi-section">
+<section class="kpi">
   <div class="container">
     <div class="text-center mb-5 fade-up">
-      <span class="section-tag">Why Us</span>
+      <span class="section-eyebrow">Why Us</span>
       <h2 class="section-title mt-2">From Global to Granular</h2>
-      <p class="text-muted mt-2" style="font-size:1rem;">See the Key Performance Indicators that Matter — Committed to Your Success</p>
+      <p class="section-desc mt-2 mx-auto">Key performance indicators that show our commitment to your success.</p>
     </div>
     <div class="row fade-up">
       {% set kpis = [
@@ -786,7 +866,7 @@
       {% for img, title, desc in kpis %}
       <div class="col-6 col-md-4 col-lg-3">
         <div class="kpi-card">
-          <img src="/static/{{ img }}" alt="{{ title }}">
+          <div class="kpi-card-icon"><img src="/static/{{ img }}" alt="{{ title }}"></div>
           <h6>{{ title }}</h6>
           <p>{{ desc }}</p>
         </div>
@@ -795,48 +875,47 @@
     </div>
   </div>
 </section>
-
+<hr class="s-divider">
 
 <!-- ══════════ TECH PARTNERS ══════════ -->
-<section class="partners-section">
+<section class="partners">
   <div class="container">
     <div class="text-center mb-5 fade-up">
-      <span class="section-tag">Ecosystem</span>
+      <span class="section-eyebrow">Ecosystem</span>
       <h2 class="section-title mt-2">Our Tech Partners</h2>
     </div>
     <div class="row justify-content-center fade-up">
       <div class="col-md-4 mb-4">
         <div class="partner-card">
           <img src="/static/sphereenginelogo.png" alt="Sphere Engine">
-          <h6>Sphere Engine</h6>
+          <span>Sphere Engine</span>
         </div>
       </div>
       <div class="col-md-4 mb-4">
         <div class="partner-card">
           <img src="/static/256px-Vonage_Logo.png" alt="Vonage">
-          <h6>Vonage Communication Services</h6>
+          <span>Vonage Communication Services</span>
         </div>
       </div>
       <div class="col-md-4 mb-4">
         <div class="partner-card">
           <img src="/static/Stripe wordmark - blurple_lg.png" alt="Stripe">
-          <h6>Stripe Payment Services</h6>
+          <span>Stripe Payment Services</span>
         </div>
       </div>
     </div>
   </div>
 </section>
-
+<hr class="s-divider">
 
 <!-- ══════════ CONTACT ══════════ -->
-<section class="contact-section">
+<section class="contact" id="contact">
   <div class="container">
     <div class="text-center mb-5 fade-up">
-      <span class="section-tag">Contact</span>
+      <span class="section-eyebrow">Contact</span>
       <h2 class="section-title mt-2">Get in Touch Today</h2>
     </div>
 
-    <!-- Map -->
     <div class="row mb-4 fade-up">
       <div class="col-12">
         <iframe
@@ -846,13 +925,12 @@
       </div>
     </div>
 
-    <!-- Contact Cards -->
     <div class="row fade-up">
       <div class="col-md-4 mb-4">
         <div class="contact-card">
           <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
           <div>
-            <h6>Visit Us</h6>
+            <div class="c-label">Visit Us</div>
             <span>Mohali, Punjab</span>
             <span>Post-office RD, Landran — 140307</span>
           </div>
@@ -862,9 +940,9 @@
         <div class="contact-card">
           <div class="contact-icon"><i class="fas fa-phone-volume"></i></div>
           <div>
-            <h6>Call Us</h6>
+            <div class="c-label">Call Us</div>
             <a href="tel:+916206047804">+91 6206047804</a>
-            <span class="sub">Mon – Sat, 7am – 11pm</span>
+            <span class="c-sub">Mon – Sat, 7am – 11pm</span>
           </div>
         </div>
       </div>
@@ -872,47 +950,53 @@
         <div class="contact-card">
           <div class="contact-icon"><i class="far fa-paper-plane"></i></div>
           <div>
-            <h6>Email Us</h6>
+            <div class="c-label">Email Us</div>
             <a href="mailto:abhishek.pathak01111@gmail.com">abhishek.pathak01111@gmail.com</a>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ══════════ SCROLL ANIMATION JS ══════════ -->
+<!-- ══════════ CTA BAND ══════════ -->
+<section class="cta-band">
+  <div class="container" style="position:relative;z-index:2;">
+    <div class="fade-up">
+      <h2>Ready to Secure Your Exams?</h2>
+      <p>Join 200+ institutions using AI-powered proctoring to ensure academic integrity.</p>
+      <a href="/register" class="btn-hero-primary" style="display:inline-flex;">
+        <i class="fas fa-rocket"></i> Start Free Today
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FLOATING CTA ══════════ -->
+<a href="/register" class="float-cta d-none d-md-flex" id="floatCta">
+  <i class="fas fa-graduation-cap"></i> Start Free Trial
+</a>
+
+<!-- ══════════ JS ══════════ -->
 <script>
+  // Fade-up on scroll
   (function () {
     var els = document.querySelectorAll('.fade-up');
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.1 });
     els.forEach(function (el) { io.observe(el); });
-    // Trigger hero immediately
-    document.querySelectorAll('.hero-section .fade-up').forEach(function(el){ el.classList.add('visible'); });
+    // Hero immediate
+    document.querySelectorAll('.hero .fade-up').forEach(function (el) { el.classList.add('visible'); });
   })();
-</script>
 
-<!-- ══════════ FLOATING CTA ══════════ -->
-<a href="/register" class="floating-cta d-none d-md-flex" id="floatingCta">
-  <i class="fas fa-graduation-cap"></i> Start Free Trial
-</a>
-
-<script>
-  // Hide floating CTA when scrolled near top
-  window.addEventListener('scroll', function(){
-    var cta = document.getElementById('floatingCta');
-    if(cta) cta.style.display = window.scrollY > 300 ? 'flex' : 'none';
+  // Floating CTA show/hide
+  window.addEventListener('scroll', function () {
+    var cta = document.getElementById('floatCta');
+    if (cta) cta.style.display = window.scrollY > 400 ? 'flex' : 'none';
   });
-  // Also hide if mob-warning visible
-  if(document.getElementById('mob-warning') && window.innerWidth < 992){
-    var fc = document.getElementById('floatingCta');
-    if(fc) fc.style.bottom = '80px';
-  }
 </script>
 
 {% endblock %}
