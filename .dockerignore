@@ -1,0 +1,40 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Windows-specific dlib wheel (Linux mein kaam nahi karta)
+*.whl
+
+# Logs aur recordings (runtime pe bante hain)
+logs/
+recordings/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+tests/
+*.test.py
+
+# README
+README.md
